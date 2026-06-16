@@ -51,21 +51,24 @@ export default function EditSessionSheet({ isOpen, onClose, session }) {
   };
 
   return (
-    <div className={`bottom-sheet ${isOpen ? 'bottom-sheet--open' : ''}`}>
-      <div className="bottom-sheet__backdrop" onClick={onClose} />
-      <div className="bottom-sheet__content">
-        <div className="bottom-sheet__header">
-          <h2 className="text-h2">Edit Session</h2>
-          <button className="bottom-sheet__close" onClick={onClose}>✕</button>
-        </div>
+    <>
+      <div
+        className={`bottom-sheet-overlay ${isOpen ? 'visible' : ''}`}
+        onClick={onClose}
+      />
+      <div className={`bottom-sheet ${isOpen ? 'visible' : ''}`} id="edit-session-sheet">
+        <div className="bottom-sheet__handle" />
+        
+        <h2 className="text-h2" style={{ marginBottom: 'var(--space-xs)' }}>Edit Session</h2>
+        <p className="text-body-sm" style={{ color: 'var(--text-muted)', marginBottom: 'var(--space-lg)' }}>
+          Forgot to stop the timer? You can manually adjust the duration or delete the log entirely.
+        </p>
 
-        <form onSubmit={handleUpdate} className="bottom-sheet__body">
-          <p className="text-body-sm" style={{ marginBottom: 'var(--space-md)', color: 'var(--text-secondary)' }}>
-            Forgot to stop the timer? You can manually adjust the duration or delete the log entirely.
-          </p>
-
-          <div className="form-group">
-            <label className="text-label" htmlFor="edit-duration">Aligners out for (minutes)</label>
+        <form onSubmit={handleUpdate} className="stack stack--md">
+          <div>
+            <label className="text-label" style={{ color: 'var(--text-secondary)', display: 'block', marginBottom: '6px' }} htmlFor="edit-duration">
+              Aligners out for (minutes)
+            </label>
             <input
               type="number"
               id="edit-duration"
@@ -78,7 +81,7 @@ export default function EditSessionSheet({ isOpen, onClose, session }) {
             />
           </div>
 
-          <div style={{ display: 'flex', gap: 'var(--space-md)', marginTop: 'var(--space-lg)' }}>
+          <div style={{ display: 'flex', gap: 'var(--space-md)', marginTop: 'var(--space-md)' }}>
             <button
               type="button"
               className="btn btn--secondary"
@@ -99,6 +102,6 @@ export default function EditSessionSheet({ isOpen, onClose, session }) {
           </div>
         </form>
       </div>
-    </div>
+    </>
   );
 }
