@@ -694,9 +694,16 @@ body {
   }
 
   .page-inner {
-    max-width: 500px;
+    max-width: 1000px;
     margin: 0 auto;
     width: 100%;
+  }
+
+  .desktop-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    align-items: flex-start;
   }
 }
 

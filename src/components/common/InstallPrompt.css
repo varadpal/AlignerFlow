@@ -1,0 +1,149 @@
+.install-prompt-overlay {
+  position: fixed;
+  bottom: calc(var(--bottom-nav-height) + var(--space-md));
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 480px;
+  z-index: 1000;
+  pointer-events: none; /* Allows clicking through the overlay wrapper */
+}
+
+@media (min-width: 768px) {
+  .install-prompt-overlay {
+    bottom: var(--space-xl);
+    left: calc(var(--sidebar-width) + 50%);
+  }
+}
+
+.install-prompt-card {
+  pointer-events: auto;
+  background: var(--bg-card); /* Usually dark in dark mode, but the screenshot was a white card. Let's make it stand out or adapt to theme. We will use a bright card or adapting theme card */
+  /* Let's force it to be a bright card if we want it exactly like the screenshot, or just adapt to theme. Adapting to theme is safer for dark mode. */
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: var(--space-lg);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Force light theme style for the prompt to match screenshot exactly? 
+   Actually, the user's app has dark mode. A glaring white box in dark mode is blinding. 
+   We will use standard theme variables so it looks native. */
+
+.install-prompt-close {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.install-prompt-close:hover {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+}
+
+.install-prompt-content {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-xs);
+}
+
+.install-prompt-icon {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  background: #fdf5eb; /* Cream background like screenshot */
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.install-prompt-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.install-prompt-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.install-prompt-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  padding-right: var(--space-lg); /* space for close btn */
+}
+
+.install-prompt-desc {
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+  margin: 0;
+  margin-bottom: var(--space-sm);
+}
+
+.install-prompt-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.install-prompt-btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #17375E; /* Dark blue from screenshot */
+  color: white;
+  border: none;
+  border-radius: 24px;
+  padding: 8px 20px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.install-prompt-btn-primary:hover {
+  opacity: 0.9;
+}
+
+/* Dark mode adjustment for the dark blue button if needed */
+[data-theme='dark'] .install-prompt-btn-primary {
+  background: var(--accent); /* Fallback to theme accent in dark mode */
+}
+
+.install-prompt-btn-text {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 4px;
+  transition: color 0.2s;
+}
+
+.install-prompt-btn-text:hover {
+  color: var(--text-primary);
+}

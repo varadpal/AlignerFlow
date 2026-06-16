@@ -11,6 +11,7 @@ import NotesPage from './pages/NotesPage';
 import ReportPage from './pages/ReportPage';
 import SettingsPage from './pages/SettingsPage';
 import ReloadPrompt from './components/common/ReloadPrompt';
+import InstallPrompt from './components/common/InstallPrompt';
 
 function ProtectedRoute({ children }) {
   const { user, userProfile, loading } = useAuth();
@@ -148,6 +149,7 @@ export default function App() {
       <AuthProvider>
         <AppRoutes />
         <ReloadPrompt />
+        <InstallPrompt />
       </AuthProvider>
     </BrowserRouter>
   );
