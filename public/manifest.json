@@ -1,0 +1,18 @@
+{
+  "name": "AlignerFlow",
+  "short_name": "AlignerFlow",
+  "description": "Track your clear aligner wear time beautifully",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF6F1",
+  "theme_color": "#E0734A",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

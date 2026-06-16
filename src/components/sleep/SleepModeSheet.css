@@ -1,0 +1,50 @@
+.sleep-mode__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.sleep-mode__option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--duration-normal) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+  font-family: var(--font-body);
+  width: 100%;
+}
+
+.sleep-mode__option:hover {
+  border-color: var(--accent-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.sleep-mode__option:active {
+  transform: scale(0.98);
+}
+
+.sleep-mode__option--recommended {
+  border-color: var(--success);
+  background: var(--success-surface);
+}
+
+.sleep-mode__option-emoji {
+  font-size: 1.75rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.sleep-mode__option-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.sleep-mode__option-title {
+  margin-bottom: 4px;
+}

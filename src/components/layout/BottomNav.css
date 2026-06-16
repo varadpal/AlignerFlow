@@ -1,0 +1,136 @@
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
+  padding-top: var(--space-xs);
+  padding-bottom: var(--safe-area-bottom);
+  z-index: 100;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .bottom-nav {
+    top: 0;
+    bottom: auto;
+    left: calc(50% - 500px); /* 500px is half of max-desktop-width */
+    width: var(--sidebar-width, 240px);
+    height: 100dvh;
+    border-top: none;
+    border-right: 1px solid var(--border-light);
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: var(--space-2xl) var(--space-lg);
+    gap: var(--space-md);
+  }
+  
+  /* Fallback if window is smaller than 1000px but larger than 768px */
+  @media (max-width: 1000px) {
+    .bottom-nav {
+      left: 0;
+    }
+  }
+}
+
+.bottom-nav__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--space-2xs) var(--space-sm);
+  text-decoration: none;
+  color: var(--text-muted);
+  -webkit-tap-highlight-color: transparent;
+  transition: all var(--duration-fast) var(--ease-smooth);
+  position: relative;
+  border-radius: var(--radius-md);
+}
+
+@media (min-width: 768px) {
+  .bottom-nav__item {
+    flex-direction: row;
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    gap: var(--space-md);
+  }
+  
+  .bottom-nav__item:hover {
+    background: var(--bg-elevated);
+  }
+}
+
+.bottom-nav__item--active {
+  color: var(--accent);
+}
+
+@media (min-width: 768px) {
+  .bottom-nav__item--active {
+    background: var(--accent-surface);
+  }
+  .bottom-nav__item--active:hover {
+    background: var(--accent-surface);
+  }
+}
+
+/* Mobile top indicator */
+@media (max-width: 767px) {
+  .bottom-nav__item--active::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 0 0 2px 2px;
+  }
+}
+
+/* Desktop left indicator */
+@media (min-width: 768px) {
+  .bottom-nav__item--active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 60%;
+    background: var(--accent);
+    border-radius: 0 3px 3px 0;
+  }
+}
+
+.bottom-nav__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  transition: transform var(--duration-normal) var(--ease-spring);
+}
+
+.bottom-nav__item:active .bottom-nav__icon {
+  transform: scale(0.88);
+}
+
+.bottom-nav__label {
+  font-size: 0.625rem;
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.02em;
+}
+
+@media (min-width: 768px) {
+  .bottom-nav__label {
+    font-size: 0.9375rem;
+  }
+}

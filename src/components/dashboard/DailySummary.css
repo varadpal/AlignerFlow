@@ -1,0 +1,35 @@
+.daily-summary__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.daily-summary__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-sm);
+}
+
+.daily-summary__stat {
+  text-align: center;
+  padding: var(--space-sm);
+  background: var(--bg-base);
+  border-radius: var(--radius-md);
+}
+
+.daily-summary__stat-value {
+  font-weight: var(--fw-bold);
+  font-size: 1.125rem;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.daily-summary__stat-value--accent {
+  color: var(--accent);
+}
+
+.daily-summary__stat-label {
+  color: var(--text-muted);
+  margin-top: 2px;
+}

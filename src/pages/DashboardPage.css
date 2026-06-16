@@ -1,0 +1,39 @@
+.dashboard-page {
+  background: var(--bg-base);
+}
+
+.dashboard__motivation {
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 0 var(--space-md);
+}
+
+.dashboard__manual-btn {
+  display: flex;
+  margin: 0 auto;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.dashboard__manual-btn:hover {
+  color: var(--accent);
+}
+
+.dashboard__streak-tray {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+.dashboard__sleep-btn {
+  gap: var(--space-xs);
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+}
+
+.dashboard__sleep-btn:hover {
+  border-color: hsla(260, 50%, 70%, 0.5);
+  background: hsl(260, 30%, 97%);
+}

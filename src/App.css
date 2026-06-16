@@ -1,0 +1,27 @@
+/* App-level loading state */
+.app-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  gap: var(--space-md);
+  background: var(--bg-base);
+}
+
+.app-loading__ring {
+  animation: breathe 2s ease-in-out infinite;
+}
+
+.app-loading__ring svg {
+  display: block;
+}
+
+.app-loading__text {
+  color: var(--text-muted);
+  font-weight: var(--fw-medium);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,61 @@
+.report__empty {
+  padding: var(--space-3xl) var(--space-lg);
+}
+
+.report__card {
+  overflow: hidden;
+}
+
+.report__card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+}
+
+.report__compliance {
+  text-align: right;
+}
+
+.report__compliance-value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--success);
+  line-height: 1;
+}
+
+.report__divider {
+  height: 1px;
+  background: var(--border-light);
+  margin-bottom: var(--space-md);
+}
+
+.report__metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+.report__metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.report__metric-label {
+  color: var(--text-muted);
+  font-weight: var(--fw-medium);
+}
+
+.report__metric-value {
+  font-weight: var(--fw-bold);
+  font-size: 1.0625rem;
+  color: var(--text-primary);
+}
+
+.report__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
