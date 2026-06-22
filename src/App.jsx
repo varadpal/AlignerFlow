@@ -12,6 +12,7 @@ import ReportPage from './pages/ReportPage';
 import SettingsPage from './pages/SettingsPage';
 import ReloadPrompt from './components/common/ReloadPrompt';
 import InstallPrompt from './components/common/InstallPrompt';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 function ProtectedRoute({ children }) {
   const { user, userProfile, loading } = useAuth();
@@ -135,14 +136,16 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <TimerProvider>
-          <AppRoutes />
-          <ReloadPrompt />
-          <InstallPrompt />
-        </TimerProvider>
-      </AuthProvider>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <AuthProvider>
+          <TimerProvider>
+            <AppRoutes />
+            <ReloadPrompt />
+            <InstallPrompt />
+          </TimerProvider>
+        </AuthProvider>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }

@@ -1,0 +1,25 @@
+.error-boundary {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl);
+  background: var(--bg-base);
+}
+
+.error-boundary__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  text-align: center;
+  max-width: 360px;
+}
+
+.error-boundary__title {
+  color: var(--text-primary);
+}
+
+.error-boundary__body {
+  color: var(--text-secondary);
+}

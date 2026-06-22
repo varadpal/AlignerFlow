@@ -11,10 +11,10 @@ export default function StreakBadge() {
 
   useEffect(() => {
     if (!user) return;
-    calculateStreak();
+    loadStreak();
   }, [user]);
 
-  const calculateStreak = async () => {
+  const loadStreak = async () => {
     try {
       // Check last 90 days for streak
       const days = getLastNDays(90);
