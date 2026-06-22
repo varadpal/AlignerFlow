@@ -5,14 +5,17 @@ import { useAuth } from '../contexts/AuthContext';
 import { DEFAULT_REMINDERS } from '../utils/constants';
 import Header from '../components/layout/Header';
 import BottomNav from '../components/layout/BottomNav';
+import SkyToggle from '../components/ui/SkyToggle';
 import './SettingsPage.css';
 
 export default function SettingsPage() {
-  const { user, userProfile, updateProfile, signOut } = useAuth();
+  const { user, userProfile, updateProfile, signOut, deleteAccount } = useAuth();
   const [settings, setSettings] = useState(null);
   const [editingTreatment, setEditingTreatment] = useState(false);
   const [treatmentForm, setTreatmentForm] = useState({});
   const [goalHours, setGoalHours] = useState(userProfile?.dailyWearGoalHours || 22);
+  const [showDeleteSheet, setShowDeleteSheet] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     if (user) loadSettings();
@@ -40,19 +43,30 @@ export default function SettingsPage() {
     }
   };
 
-  const handleGoalChange = async (value) => {
-    const newGoal = parseFloat(value);
-    setGoalHours(newGoal);
-    await updateProfile({ dailyWearGoalHours: newGoal });
+  const handleGoalChange = (value) => {
+    setGoalHours(parseFloat(value));
+  };
+
+  const handleGoalCommit = async () => {
+    await updateProfile({ dailyWearGoalHours: goalHours });
   };
 
   const handleTreatmentSave = async () => {
-    await updateProfile({
+    const newCurrentTray = parseInt(treatmentForm.currentTray) || userProfile.currentTray;
+    
+    const updates = {
       totalTrays: parseInt(treatmentForm.totalTrays) || userProfile.totalTrays,
-      currentTray: parseInt(treatmentForm.currentTray) || userProfile.currentTray,
+      currentTray: newCurrentTray,
       trayDurationDays: parseInt(treatmentForm.trayDurationDays) || 14,
       alignerBrand: treatmentForm.alignerBrand || ''
-    });
+    };
+
+    // If current tray changed, reset the start date so the countdown restarts
+    if (newCurrentTray !== userProfile.currentTray) {
+      updates.trayStartDate = new Date().toISOString().split('T')[0];
+    }
+
+    await updateProfile(updates);
     setEditingTreatment(false);
   };
 
@@ -86,6 +100,22 @@ export default function SettingsPage() {
   const handleSignOut = async () => {
     if (window.confirm('Are you sure you want to sign out?')) {
       await signOut();
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    setDeleteLoading(true);
+    try {
+      await deleteAccount();
+      // onAuthStateChanged in AuthContext will redirect to /login automatically
+    } catch (err) {
+      setDeleteLoading(false);
+      if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
+        // User closed the re-auth popup — silently abort
+        setShowDeleteSheet(false);
+      } else {
+        alert('Failed to delete account. Please try again or contact support.');
+      }
     }
   };
 
@@ -207,17 +237,14 @@ export default function SettingsPage() {
               <h3 className="text-h3 settings__section-title" style={{ margin: 0 }}>Appearance</h3>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span className="text-caption" style={{ color: 'var(--text-muted)' }}>Dark Mode</span>
-                <button
-                  className={`toggle ${document.documentElement.getAttribute('data-theme') === 'dark' ? 'active' : ''}`}
-                  onClick={() => {
-                    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-                    const newTheme = isDark ? 'light' : 'dark';
+                <SkyToggle
+                  checked={document.documentElement.getAttribute('data-theme') === 'dark'}
+                  onChange={(val) => {
+                    const newTheme = val ? 'dark' : 'light';
                     document.documentElement.setAttribute('data-theme', newTheme);
                     localStorage.setItem('theme', newTheme);
-                    // Force re-render to update toggle state
                     setSettings(prev => ({ ...prev }));
                   }}
-                  aria-label="Toggle dark mode"
                 />
               </div>
             </div>
@@ -237,6 +264,8 @@ export default function SettingsPage() {
               step="0.5"
               value={goalHours}
               onChange={e => handleGoalChange(e.target.value)}
+              onMouseUp={handleGoalCommit}
+              onTouchEnd={handleGoalCommit}
               id="settings-goal-slider"
             />
             <div className="onboarding__slider-labels">
@@ -283,6 +312,25 @@ export default function SettingsPage() {
             </p>
           </div>
 
+          {/* Danger Zone */}
+          <div className="card settings__section" style={{ borderColor: 'var(--danger)', borderWidth: '1.5px' }}>
+            <div className="row row--between">
+              <div>
+                <h3 className="text-h3" style={{ color: 'var(--danger)', marginBottom: '4px' }}>Danger Zone</h3>
+                <p className="text-caption" style={{ color: 'var(--text-muted)', maxWidth: '200px' }}>
+                  Permanently delete your account and all data. This cannot be undone.
+                </p>
+              </div>
+              <button
+                className="btn btn--danger btn--sm"
+                onClick={() => setShowDeleteSheet(true)}
+                id="delete-account-trigger"
+              >
+                Delete Account
+              </button>
+            </div>
+          </div>
+
           {/* Sign Out */}
           <button
             className="btn btn--secondary btn--full settings__signout"
@@ -298,6 +346,59 @@ export default function SettingsPage() {
         </div>
       </div>
       <BottomNav />
+
+      {/* ── Delete Account Confirmation Sheet ── */}
+      <div
+        className={`bottom-sheet-overlay ${showDeleteSheet ? 'visible' : ''}`}
+        onClick={() => !deleteLoading && setShowDeleteSheet(false)}
+      />
+      <div className={`bottom-sheet ${showDeleteSheet ? 'visible' : ''}`} role="dialog" aria-modal="true">
+        <div className="bottom-sheet__handle" />
+
+        <div style={{ textAlign: 'center', padding: 'var(--space-md) 0 var(--space-lg)' }}>
+          {/* Warning icon */}
+          <div style={{
+            width: 56, height: 56, borderRadius: '50%',
+            background: 'var(--danger-surface)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            margin: '0 auto var(--space-md)'
+          }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+              <line x1="12" y1="9" x2="12" y2="13" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+          </div>
+
+          <h3 className="text-h2" style={{ marginBottom: 'var(--space-xs)' }}>Delete Account?</h3>
+          <p className="text-body-sm" style={{ color: 'var(--text-muted)', maxWidth: 280, margin: '0 auto var(--space-lg)' }}>
+            This will permanently delete your profile, all session history, streaks, and analytics.
+            <strong style={{ color: 'var(--danger)', display: 'block', marginTop: 8 }}>This action cannot be undone.</strong>
+          </p>
+
+          <p className="text-caption" style={{ color: 'var(--text-muted)', marginBottom: 'var(--space-lg)' }}>
+            You&apos;ll be asked to re-verify with Google before deletion.
+          </p>
+
+          <div className="stack stack--sm">
+            <button
+              className="btn btn--danger btn--lg btn--full"
+              onClick={handleDeleteAccount}
+              disabled={deleteLoading}
+              id="confirm-delete-account"
+            >
+              {deleteLoading ? 'Deleting…' : 'Yes, delete my account'}
+            </button>
+            <button
+              className="btn btn--secondary btn--full"
+              onClick={() => setShowDeleteSheet(false)}
+              disabled={deleteLoading}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

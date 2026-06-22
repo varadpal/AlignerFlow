@@ -92,9 +92,7 @@ function AppRoutes() {
         path="/"
         element={
           <ProtectedRoute>
-            <TimerProvider>
-              <DashboardPage />
-            </TimerProvider>
+            <DashboardPage />
           </ProtectedRoute>
         }
       />
@@ -102,9 +100,7 @@ function AppRoutes() {
         path="/analytics"
         element={
           <ProtectedRoute>
-            <TimerProvider>
-              <AnalyticsPage />
-            </TimerProvider>
+            <AnalyticsPage />
           </ProtectedRoute>
         }
       />
@@ -112,9 +108,7 @@ function AppRoutes() {
         path="/notes"
         element={
           <ProtectedRoute>
-            <TimerProvider>
-              <NotesPage />
-            </TimerProvider>
+            <NotesPage />
           </ProtectedRoute>
         }
       />
@@ -122,9 +116,7 @@ function AppRoutes() {
         path="/reports"
         element={
           <ProtectedRoute>
-            <TimerProvider>
-              <ReportPage />
-            </TimerProvider>
+            <ReportPage />
           </ProtectedRoute>
         }
       />
@@ -132,9 +124,7 @@ function AppRoutes() {
         path="/settings"
         element={
           <ProtectedRoute>
-            <TimerProvider>
-              <SettingsPage />
-            </TimerProvider>
+            <SettingsPage />
           </ProtectedRoute>
         }
       />
@@ -147,9 +137,11 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <AppRoutes />
-        <ReloadPrompt />
-        <InstallPrompt />
+        <TimerProvider>
+          <AppRoutes />
+          <ReloadPrompt />
+          <InstallPrompt />
+        </TimerProvider>
       </AuthProvider>
     </BrowserRouter>
   );

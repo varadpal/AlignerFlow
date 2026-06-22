@@ -29,13 +29,13 @@
 }
 
 .session-pill--manual {
-  border-color: hsla(38, 70%, 70%, 0.5);
+  border-color: var(--warning);
   background: var(--warning-surface);
 }
 
 .session-pill--sleep {
-  border-color: hsla(260, 50%, 75%, 0.4);
-  background: hsl(260, 40%, 96%);
+  border-color: var(--accent);
+  background: var(--accent-surface);
 }
 
 .session-pill__icon {
@@ -54,7 +54,7 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--warning-text);
-  background: hsla(38, 80%, 55%, 0.15);
+  background: var(--warning-surface);
   padding: 1px 6px;
   border-radius: var(--radius-full);
 }

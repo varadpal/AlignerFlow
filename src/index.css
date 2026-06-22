@@ -1,7 +1,8 @@
 /* ========================================================
    AlignerFlow — Design System
-   Aesthetic: "Warm Clinical Serenity" — Light Mode
-   Fonts: DM Serif Display (display) + Outfit (body)
+   Aesthetic: PlayStation three-canvas chrome
+   Black / White / PlayStation Blue · flat-on-canvas · pill CTAs
+   Fonts: Roboto Light 300 (display) + Inter (body/chrome)
    ======================================================== */
 
 /* ── Reset & Base ────────────────────────────────── */
@@ -14,59 +15,68 @@
 }
 
 :root {
-  /* ── Backgrounds ── */
-  --bg-base: hsl(30, 30%, 97%);
-  --bg-card: hsl(0, 0%, 100%);
-  --bg-elevated: hsl(30, 22%, 95%);
-  --bg-subtle: hsl(30, 18%, 93%);
-  --bg-overlay: hsla(220, 20%, 10%, 0.45);
-  --bg-glass: hsla(0, 0%, 100%, 0.72);
+  /* ── Backgrounds — light-canvas-dominant ── */
+  --bg-base: #ffffff;          /* canvas-light */
+  --bg-card: #f5f7fa;          /* surface-card — cool blue-tinted */
+  --bg-elevated: #f3f3f3;      /* surface-soft */
+  --bg-subtle: #ececec;
+  --bg-overlay: rgba(0, 0, 0, 0.55);
+  --bg-glass: rgba(255, 255, 255, 0.85);
 
-  /* ── Accent — warm coral ── */
-  --accent: hsl(15, 80%, 55%);
-  --accent-hover: hsl(15, 82%, 48%);
-  --accent-light: hsl(15, 82%, 65%);
-  --accent-glow: hsla(15, 90%, 58%, 0.22);
-  --accent-surface: hsl(15, 75%, 96%);
-  --accent-text: hsl(15, 85%, 42%);
+  /* ── Accent — PlayStation Blue ── */
+  --accent: #0070d1;
+  --accent-hover: #0064b7;     /* primary-pressed */
+  --accent-active: #004d8d;    /* primary-active */
+  --accent-light: #53b1ff;     /* link-dark / bright */
+  --accent-glow: rgba(0, 112, 209, 0.18);
+  --accent-surface: #e7f1fb;   /* pale blue tint */
+  --accent-text: #0064b7;      /* link-light */
 
   /* ── Semantic ── */
-  --success: hsl(155, 52%, 42%);
-  --success-surface: hsl(155, 45%, 94%);
-  --success-text: hsl(155, 55%, 28%);
-  --warning: hsl(38, 88%, 52%);
-  --warning-surface: hsl(38, 80%, 94%);
-  --warning-text: hsl(38, 80%, 30%);
-  --danger: hsl(0, 65%, 54%);
-  --danger-surface: hsl(0, 60%, 96%);
-  --danger-text: hsl(0, 65%, 36%);
+  --success: #0070d1;          /* on-track reads as brand blue */
+  --success-surface: #e7f1fb;
+  --success-text: #0064b7;
+  --warning: #f5a623;          /* PS Plus gold-mid */
+  --warning-surface: #fdf3e0;
+  --warning-text: #8a5a00;
+  --danger: #c81b3a;           /* PS warning red */
+  --danger-surface: #fbe9ec;
+  --danger-text: #a0142d;
+  --commerce: #d53b00;         /* reserved warm accent (store/destructive) */
+
+  /* ── PS Plus gold gradient — achievements/streak tier only ── */
+  --gold-start: #ffce21;
+  --gold-mid: #f5a623;
+  --gold-end: #ee8e00;
+  --gold-gradient: linear-gradient(90deg, var(--gold-start), var(--gold-mid), var(--gold-end));
 
   /* ── Text ── */
-  --text-primary: hsl(220, 25%, 12%);
-  --text-secondary: hsl(220, 12%, 38%);
-  --text-muted: hsl(220, 8%, 58%);
-  --text-inverse: hsl(0, 0%, 100%);
-  --text-on-accent: hsl(0, 0%, 100%);
+  --text-primary: #000000;             /* ink */
+  --text-secondary: rgba(0, 0, 0, 0.6);/* body-light */
+  --text-muted: #6b6b6b;               /* mute-light */
+  --text-inverse: #ffffff;
+  --text-on-accent: #ffffff;
 
-  /* ── Borders & Shadows ── */
-  --border: hsl(220, 12%, 88%);
-  --border-light: hsl(220, 10%, 93%);
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
-  --radius-full: 9999px;
-  --shadow-xs: 0 1px 2px hsla(220, 15%, 60%, 0.06);
-  --shadow-sm: 0 1px 4px hsla(220, 15%, 60%, 0.08), 0 1px 2px hsla(220, 15%, 60%, 0.04);
-  --shadow-md: 0 4px 16px hsla(220, 15%, 55%, 0.1), 0 1px 4px hsla(220, 15%, 60%, 0.06);
-  --shadow-lg: 0 8px 32px hsla(220, 15%, 50%, 0.1), 0 2px 8px hsla(220, 15%, 60%, 0.05);
-  --shadow-xl: 0 16px 48px hsla(220, 15%, 45%, 0.12);
-  --shadow-ring: 0 0 0 3px var(--accent-glow);
-  --shadow-ring-glow: 0 0 50px hsla(15, 90%, 58%, 0.18);
+  /* ── Borders & Shadows (flat-on-canvas) ── */
+  --border: #e3e3e3;
+  --border-light: #f3f3f3;     /* hairline-light */
+  --border-strong: #cccccc;    /* ash-light */
+  --radius-sm: 4px;            /* inputs */
+  --radius-md: 8px;            /* cards / tiles */
+  --radius-lg: 8px;            /* cards (flat 8px vocabulary) */
+  --radius-xl: 16px;           /* sheets / dialogs */
+  --radius-full: 9999px;       /* every CTA pill */
+  --shadow-xs: none;
+  --shadow-sm: none;
+  --shadow-md: none;           /* cards rest flat */
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.16);  /* press / active lift */
+  --shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.24);  /* desktop modal / app frame */
+  --shadow-ring: 0 0 0 2px var(--accent);
+  --shadow-ring-glow: none;
 
   /* ── Typography ── */
-  --font-display: 'DM Serif Display', Georgia, serif;
-  --font-body: 'Outfit', -apple-system, sans-serif;
+  --font-display: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
   --fw-light: 300;
   --fw-regular: 400;
   --fw-medium: 500;
@@ -82,6 +92,7 @@
   --space-xl: 32px;
   --space-2xl: 48px;
   --space-3xl: 64px;
+  --space-section: 96px;
 
   /* ── Layout ── */
   --max-width: 420px;
@@ -100,30 +111,43 @@
 }
 
 [data-theme='dark'] {
-  --bg-base: hsl(220, 15%, 8%);
-  --bg-card: hsl(220, 15%, 12%);
-  --bg-elevated: hsl(220, 15%, 15%);
-  --bg-subtle: hsl(220, 15%, 18%);
-  --bg-overlay: hsla(0, 0%, 0%, 0.6);
-  --bg-glass: hsla(220, 15%, 12%, 0.8);
+  /* dark-canvas-dominant */
+  --bg-base: #000000;          /* canvas-dark */
+  --bg-card: #181818;          /* surface-dark-card */
+  --bg-elevated: #121314;      /* surface-dark-elevated */
+  --bg-subtle: #1f2024;        /* charcoal */
+  --bg-overlay: rgba(0, 0, 0, 0.7);
+  --bg-glass: rgba(18, 19, 20, 0.85);
 
-  --accent: hsl(15, 80%, 55%);
-  --accent-hover: hsl(15, 82%, 60%);
-  --accent-light: hsl(15, 82%, 45%);
-  --accent-surface: hsl(15, 30%, 15%);
-  --accent-text: hsl(15, 85%, 70%);
+  --accent: #0070d1;
+  --accent-hover: #1a82da;
+  --accent-active: #53b1ff;
+  --accent-light: #53b1ff;
+  --accent-glow: rgba(0, 112, 209, 0.28);
+  --accent-surface: rgba(0, 112, 209, 0.16);
+  --accent-text: #53b1ff;      /* link-dark */
 
-  --text-primary: hsl(0, 0%, 95%);
-  --text-secondary: hsl(220, 10%, 75%);
-  --text-muted: hsl(220, 10%, 55%);
-  
-  --border: hsl(220, 15%, 22%);
-  --border-light: hsl(220, 15%, 18%);
+  --success: #53b1ff;
+  --success-surface: rgba(0, 112, 209, 0.18);
+  --success-text: #53b1ff;
+  --warning: #f5a623;
+  --warning-surface: rgba(245, 166, 35, 0.16);
+  --warning-text: #ffce21;
+  --danger: #ff5470;
+  --danger-surface: rgba(200, 27, 58, 0.2);
+  --danger-text: #ff8fa3;
 
-  --shadow-sm: 0 1px 4px hsla(0, 0%, 0%, 0.3);
-  --shadow-md: 0 4px 16px hsla(0, 0%, 0%, 0.4);
-  --shadow-lg: 0 8px 32px hsla(0, 0%, 0%, 0.5);
-  --shadow-xl: 0 16px 48px hsla(0, 0%, 0%, 0.6);
+  --text-primary: #ffffff;             /* on-dark */
+  --text-secondary: rgba(255, 255, 255, 0.7); /* body-dark */
+  --text-muted: rgba(229, 229, 229, 0.55);    /* mute-dark */
+  --text-inverse: #000000;
+
+  --border: rgba(229, 229, 229, 0.2);  /* hairline-dark */
+  --border-light: rgba(229, 229, 229, 0.12);
+  --border-strong: rgba(229, 229, 229, 0.3);
+
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.7);
 }
 
 html {
@@ -149,51 +173,60 @@ body {
   min-height: -webkit-fill-available;
 }
 
-/* ── Typography Scale ────────────────────────────── */
+/* ── Typography Scale ──────────────────────────────
+   Display tier = Roboto Light 300 (PlayStation SST voice).
+   Chrome/body = Inter. Positive tracking on display + buttons. */
 .text-display {
   font-family: var(--font-display);
-  font-size: 2rem;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  font-weight: var(--fw-light);
+  font-size: 2.125rem;   /* ~34px mobile hero */
+  line-height: 1.25;
+  letter-spacing: -0.1px;
 }
 
 .text-h1 {
   font-family: var(--font-display);
-  font-size: 1.75rem;
-  line-height: 1.2;
+  font-weight: var(--fw-light);
+  font-size: 1.75rem;    /* ~28px */
+  line-height: 1.25;
+  letter-spacing: 0.1px;
 }
 
 .text-h2 {
-  font-family: var(--font-body);
-  font-weight: var(--fw-semibold);
-  font-size: 1.25rem;
-  line-height: 1.3;
+  font-family: var(--font-display);
+  font-weight: var(--fw-light);
+  font-size: 1.375rem;   /* ~22px */
+  line-height: 1.25;
+  letter-spacing: 0.1px;
 }
 
 .text-h3 {
   font-family: var(--font-body);
   font-weight: var(--fw-semibold);
-  font-size: 1.05rem;
-  line-height: 1.35;
+  font-size: 1.125rem;   /* 18px heading-md */
+  line-height: 1.1;
 }
 
 .text-body {
+  font-family: var(--font-body);
   font-size: 0.9375rem;
-  line-height: 1.55;
+  line-height: 1.5;
 }
 
 .text-body-sm {
+  font-family: var(--font-body);
   font-size: 0.8125rem;
   line-height: 1.5;
 }
 
 .text-caption {
+  font-family: var(--font-body);
   font-size: 0.75rem;
-  line-height: 1.4;
-  letter-spacing: 0.01em;
+  line-height: 1.5;
 }
 
 .text-label {
+  font-family: var(--font-body);
   font-size: 0.6875rem;
   font-weight: var(--fw-semibold);
   text-transform: uppercase;
@@ -203,19 +236,15 @@ body {
 
 /* ── Component Primitives ────────────────────────── */
 
-/* Card */
+/* Card — flat on canvas, 8px radius, lifts only on press */
 .card {
   background: var(--bg-card);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
   border: 1px solid var(--border-light);
   padding: var(--space-lg);
   transition: box-shadow var(--duration-normal) var(--ease-smooth),
               transform var(--duration-normal) var(--ease-smooth);
-}
-
-.card:hover {
-  box-shadow: var(--shadow-md);
 }
 
 .card--flat {
@@ -225,23 +254,26 @@ body {
 
 .card--accent {
   background: var(--accent-surface);
-  border-color: hsla(15, 70%, 85%, 0.5);
+  border-color: transparent;
 }
 
-/* Buttons */
+/* Buttons — pill chrome */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-xs);
   font-family: var(--font-body);
-  font-weight: var(--fw-semibold);
-  font-size: 0.9375rem;
+  font-weight: var(--fw-bold);
+  font-size: 0.875rem;
+  letter-spacing: 0.324px;
   padding: var(--space-sm) var(--space-lg);
   border: none;
   border-radius: var(--radius-full);
   cursor: pointer;
-  transition: all var(--duration-normal) var(--ease-out);
+  transition: background var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   outline: none;
@@ -254,33 +286,32 @@ body {
 }
 
 .btn:active {
-  transform: scale(0.96);
+  transform: scale(0.97);
+  box-shadow: var(--shadow-lg);
 }
 
 .btn--primary {
   background: var(--accent);
   color: var(--text-on-accent);
-  box-shadow: var(--shadow-sm), 0 2px 12px var(--accent-glow);
 }
 
 .btn--primary:hover {
   background: var(--accent-hover);
-  box-shadow: var(--shadow-md), 0 4px 20px var(--accent-glow);
 }
 
 .btn--secondary {
-  background: var(--bg-elevated);
+  background: transparent;
   color: var(--text-primary);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
 }
 
 .btn--secondary:hover {
-  background: var(--bg-subtle);
+  border-color: var(--text-primary);
 }
 
 .btn--ghost {
   background: transparent;
-  color: var(--accent);
+  color: var(--accent-text);
   padding: var(--space-xs) var(--space-md);
 }
 
@@ -290,13 +321,14 @@ body {
 
 .btn--danger {
   background: var(--danger);
-  color: var(--text-inverse);
+  color: #ffffff;
 }
 
 .btn--lg {
-  font-size: 1.0625rem;
-  padding: var(--space-md) var(--space-xl);
-  min-height: 52px;
+  font-size: 1.125rem;
+  letter-spacing: 0.45px;
+  padding: var(--space-sm) var(--space-xl);
+  min-height: 48px;
 }
 
 .btn--sm {
@@ -306,9 +338,9 @@ body {
 
 .btn--icon {
   padding: var(--space-sm);
-  border-radius: var(--radius-md);
-  min-width: 40px;
-  min-height: 40px;
+  border-radius: var(--radius-full);
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .btn--full {
@@ -320,9 +352,11 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  font-family: var(--font-body);
   font-size: 0.6875rem;
   font-weight: var(--fw-semibold);
-  padding: 3px 10px;
+  letter-spacing: 0.2px;
+  padding: 4px 10px;
   border-radius: var(--radius-full);
   line-height: 1.4;
 }
@@ -343,8 +377,8 @@ body {
 }
 
 .badge--accent {
-  background: var(--accent-surface);
-  color: var(--accent-text);
+  background: var(--accent);
+  color: var(--text-on-accent);
 }
 
 .badge--muted {
@@ -352,25 +386,24 @@ body {
   color: var(--text-muted);
 }
 
-/* Input */
+/* Input — 4px radius, focus = 2px solid blue (no halo) */
 .input {
   font-family: var(--font-body);
   font-size: 0.9375rem;
   font-weight: var(--fw-regular);
   padding: var(--space-sm) var(--space-md);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-base);
   color: var(--text-primary);
   width: 100%;
   outline: none;
-  transition: border-color var(--duration-fast) var(--ease-smooth),
-              box-shadow var(--duration-fast) var(--ease-smooth);
+  transition: border-color var(--duration-fast) var(--ease-smooth);
 }
 
 .input:focus {
-  border-color: var(--accent);
-  box-shadow: var(--shadow-ring);
+  border: 2px solid var(--accent);
+  padding: calc(var(--space-sm) - 1px) calc(var(--space-md) - 1px);
 }
 
 .input::placeholder {
@@ -388,9 +421,9 @@ body {
   font-family: var(--font-body);
   font-size: 0.9375rem;
   padding: var(--space-sm) var(--space-xl) var(--space-sm) var(--space-md);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--bg-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-base) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;
   color: var(--text-primary);
   width: 100%;
   outline: none;
@@ -400,7 +433,6 @@ body {
 
 .select:focus {
   border-color: var(--accent);
-  box-shadow: var(--shadow-ring);
 }
 
 /* Toggle Switch */
@@ -408,8 +440,8 @@ body {
   position: relative;
   width: 48px;
   height: 28px;
-  border-radius: 14px;
-  background: var(--border);
+  border-radius: var(--radius-full);
+  background: var(--border-strong);
   cursor: pointer;
   transition: background var(--duration-normal) var(--ease-smooth);
   border: none;
@@ -426,7 +458,6 @@ body {
   height: 22px;
   border-radius: 50%;
   background: white;
-  box-shadow: var(--shadow-sm);
   transition: transform var(--duration-normal) var(--ease-spring);
 }
 
@@ -459,7 +490,7 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  background: var(--bg-card);
+  background: var(--bg-base);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   padding: var(--space-sm) var(--space-lg) calc(var(--space-xl) + var(--safe-area-bottom));
   z-index: 1001;
@@ -467,6 +498,7 @@ body {
   transition: transform var(--duration-slow) var(--ease-out), opacity var(--duration-slow);
   max-height: 85dvh;
   overflow-y: auto;
+  border-top: 1px solid var(--border);
 }
 
 .bottom-sheet.visible {
@@ -476,8 +508,8 @@ body {
 .bottom-sheet__handle {
   width: 36px;
   height: 4px;
-  background: var(--border);
-  border-radius: 2px;
+  background: var(--border-strong);
+  border-radius: var(--radius-full);
   margin: 0 auto var(--space-lg);
 }
 
@@ -509,7 +541,7 @@ body {
 .page {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: var(--header-height) var(--space-md) calc(var(--bottom-nav-height) + var(--safe-area-bottom) + var(--space-md));
+  padding: var(--header-height) var(--space-md) calc(var(--bottom-nav-height) + var(--space-xl) + var(--safe-area-bottom));
   min-height: 100dvh;
 }
 
@@ -582,10 +614,10 @@ body {
 
 @keyframes pulseGlow {
   0%, 100% {
-    box-shadow: 0 0 20px var(--accent-glow), 0 0 40px hsla(15, 90%, 58%, 0.08);
+    box-shadow: 0 0 24px var(--accent-glow);
   }
   50% {
-    box-shadow: 0 0 30px var(--accent-glow), 0 0 60px hsla(15, 90%, 58%, 0.14);
+    box-shadow: 0 0 44px var(--accent-glow);
   }
 }
 
@@ -607,6 +639,10 @@ body {
 @keyframes countUp {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .animate-fade-in {
@@ -644,20 +680,30 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 2px;
+  background: var(--border-strong);
+  border-radius: var(--radius-full);
 }
 
 /* ── Selection ───────────────────────────────────── */
 ::selection {
-  background: var(--accent-glow);
-  color: var(--text-primary);
+  background: var(--accent);
+  color: #ffffff;
 }
 
 /* ── Focus Ring (Accessibility) ──────────────────── */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ── Responsive ──────────────────────────────────── */
@@ -705,17 +751,8 @@ body {
     gap: var(--space-2xl);
     align-items: flex-start;
   }
-}
 
-/* ── Noise texture overlay ───────────────────────── */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  opacity: 0.018;
-  pointer-events: none;
-  z-index: 9999;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
+  /* Display tier scales up on the desktop frame, PlayStation-style */
+  .text-display { font-size: 2.75rem; }
+  .text-h1 { font-size: 2rem; }
 }

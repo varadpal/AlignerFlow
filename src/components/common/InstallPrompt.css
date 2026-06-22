@@ -1,10 +1,11 @@
 .install-prompt-overlay {
   position: fixed;
   bottom: calc(var(--bottom-nav-height) + var(--space-md));
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  max-width: 480px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  padding: 0 var(--space-md);
   z-index: 1000;
   pointer-events: none; /* Allows clicking through the overlay wrapper */
 }
@@ -12,19 +13,19 @@
 @media (min-width: 768px) {
   .install-prompt-overlay {
     bottom: var(--space-xl);
-    left: calc(var(--sidebar-width) + 50%);
+    left: var(--sidebar-width, 240px);
   }
 }
 
 .install-prompt-card {
+  width: 100%;
+  max-width: 480px;
   pointer-events: auto;
-  background: var(--bg-card); /* Usually dark in dark mode, but the screenshot was a white card. Let's make it stand out or adapt to theme. We will use a bright card or adapting theme card */
-  /* Let's force it to be a bright card if we want it exactly like the screenshot, or just adapt to theme. Adapting to theme is safer for dark mode. */
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 24px;
+  border-radius: var(--radius-md);
   padding: var(--space-lg);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-xl);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -65,8 +66,8 @@
   flex-shrink: 0;
   width: 64px;
   height: 64px;
-  background: #fdf5eb; /* Cream background like screenshot */
-  border-radius: 16px;
+  background: var(--accent-surface);
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -113,24 +114,20 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: #17375E; /* Dark blue from screenshot */
+  background: var(--accent);
   color: white;
   border: none;
-  border-radius: 24px;
-  padding: 8px 20px;
-  font-weight: 600;
+  border-radius: var(--radius-full);
+  padding: 10px 24px;
+  font-weight: 700;
   font-size: 0.875rem;
+  letter-spacing: 0.324px;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: background 0.2s;
 }
 
 .install-prompt-btn-primary:hover {
-  opacity: 0.9;
-}
-
-/* Dark mode adjustment for the dark blue button if needed */
-[data-theme='dark'] .install-prompt-btn-primary {
-  background: var(--accent); /* Fallback to theme accent in dark mode */
+  background: var(--accent-hover);
 }
 
 .install-prompt-btn-text {

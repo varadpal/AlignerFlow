@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
-import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore';
+import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from 'firebase/firestore';
 
 // Firebase configuration
 // Replace these with your actual Firebase project config
@@ -15,17 +15,15 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const db = getFirestore(app);
 export const googleProvider = new GoogleAuthProvider();
 
-// Enable offline persistence for Firestore
-// Critical for stopwatch — timer data cached locally survives offline
-enableIndexedDbPersistence(db).catch((err) => {
-  if (err.code === 'failed-precondition') {
-    console.warn('Firestore persistence unavailable: multiple tabs open');
-  } else if (err.code === 'unimplemented') {
-    console.warn('Firestore persistence unavailable: browser not supported');
-  }
+// Modern persistence API (replaces deprecated enableIndexedDbPersistence).
+// Critical for stopwatch — timer data cached locally survives offline.
+// persistentMultipleTabManager allows multiple tabs to share the cache.
+export const db = initializeFirestore(app, {
+  localCache: persistentLocalCache({
+    tabManager: persistentMultipleTabManager()
+  })
 });
 
 export default app;

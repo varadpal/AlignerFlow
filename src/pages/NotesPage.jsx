@@ -123,8 +123,8 @@ export default function NotesPage() {
                 </div>
               </div>
               <div className="notes-composer__actions">
-                <button className="btn-secondary" onClick={() => setIsComposing(false)}>Cancel</button>
-                <button className="btn-primary" onClick={handleSaveNote} disabled={!newNoteText.trim()}>Save Note</button>
+                <button className="btn btn--secondary" onClick={() => setIsComposing(false)}>Cancel</button>
+                <button className="btn btn--primary" onClick={handleSaveNote} disabled={!newNoteText.trim()}>Save Note</button>
               </div>
             </div>
           ) : (

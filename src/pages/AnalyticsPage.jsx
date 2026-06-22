@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { useAuth } from '../contexts/AuthContext';
-import { getLastNDays, getDayAbbr, formatMinutesToHours } from '../utils/timeFormatters';
+import { getLastNDays, getDayAbbr, formatMinutesToHours, calculateStreak } from '../utils/timeFormatters';
 import { ACHIEVEMENTS } from '../utils/constants';
 import Header from '../components/layout/Header';
 import BottomNav from '../components/layout/BottomNav';
@@ -58,6 +58,25 @@ export default function AnalyticsPage() {
   // Calculate max for bar chart scale
   const maxWearHours = Math.max(24, ...weekData.map(d => d.wearMinutes / 60));
 
+  // Determine Unlocked Achievements
+  const unlockedAchievements = new Set();
+  if (monthData.some(d => d.goalMet)) unlockedAchievements.add('first_day');
+  
+  const streak = calculateStreak(
+    monthData.reduce((acc, d) => ({ ...acc, [d.date]: d }), {}),
+    monthData.map(d => d.date)
+  );
+  if (streak >= 7) unlockedAchievements.add('week_warrior');
+  if (streak >= 30) unlockedAchievements.add('iron_mouth');
+  
+  if (userProfile?.currentTray && userProfile?.totalTrays) {
+    if (userProfile.currentTray >= userProfile.totalTrays / 2) unlockedAchievements.add('halfway');
+    if (userProfile.currentTray === userProfile.totalTrays) unlockedAchievements.add('final_stretch');
+  }
+
+  const perfectWeek = weekData.length === 7 && weekData.every(d => d.goalMet);
+  if (perfectWeek) unlockedAchievements.add('perfect_week');
+
   return (
     <div className="analytics-page" id="analytics-page">
       <Header />
@@ -107,11 +126,18 @@ export default function AnalyticsPage() {
                         {weekData.map((d, i) => {
                           const hours = d.wearMinutes / 60;
                           const heightPct = (hours / maxWearHours) * 100;
+                          // Colour each bar against the user's (dynamic) goal:
+                          // at/above goal → blue, within 2h below → gold, further below → red
+                          const barLevel = hours >= goalHours
+                            ? 'success'
+                            : hours >= goalHours - 2
+                            ? 'warning'
+                            : 'danger';
                           return (
                             <div key={d.date} className="analytics__bar-col">
                               <div className="analytics__bar-wrapper">
                                 <div
-                                  className={`analytics__bar ${d.goalMet ? 'analytics__bar--success' : ''}`}
+                                  className={`analytics__bar analytics__bar--${barLevel}`}
                                   style={{
                                     height: `${Math.max(2, heightPct)}%`,
                                     animationDelay: `${i * 80}ms`
@@ -225,12 +251,15 @@ export default function AnalyticsPage() {
                 <div className="card analytics__achievements">
                   <h3 className="text-h3" style={{ marginBottom: 'var(--space-md)' }}>🏆 Achievements</h3>
                   <div className="analytics__badge-grid">
-                    {Object.values(ACHIEVEMENTS).map(ach => (
-                      <div key={ach.id} className="analytics__badge analytics__badge--locked">
-                        <span className="analytics__badge-emoji">{ach.emoji}</span>
-                        <span className="analytics__badge-title text-caption">{ach.title}</span>
-                      </div>
-                    ))}
+                    {Object.values(ACHIEVEMENTS).map(ach => {
+                      const isUnlocked = unlockedAchievements.has(ach.id);
+                      return (
+                        <div key={ach.id} className={`analytics__badge ${isUnlocked ? '' : 'analytics__badge--locked'}`} title={ach.description}>
+                          <span className="analytics__badge-emoji">{ach.emoji}</span>
+                          <span className="analytics__badge-title text-caption">{ach.title}</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>

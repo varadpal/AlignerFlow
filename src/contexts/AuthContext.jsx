@@ -2,9 +2,11 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import {
   onAuthStateChanged,
   signInWithPopup,
+  reauthenticateWithPopup,
+  deleteUser,
   signOut as firebaseSignOut
 } from 'firebase/auth';
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, setDoc, collection, getDocs, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db, googleProvider } from '../config/firebase';
 import { DEFAULT_WEAR_GOAL_HOURS, DEFAULT_TRAY_DURATION_DAYS, DEFAULT_REMINDERS } from '../utils/constants';
 
@@ -97,6 +99,44 @@ export function AuthProvider({ children }) {
     setUserProfile(prev => ({ ...prev, ...profileUpdate }));
   };
 
+  const deleteAccount = async () => {
+    if (!user) return;
+    try {
+      // Firebase requires recent authentication before deleting an account.
+      await reauthenticateWithPopup(auth, googleProvider);
+
+      // Delete all known Firestore sub-documents under users/{uid}/data/
+      const dataCollectionRef = collection(db, 'users', user.uid, 'data');
+      const dataSnap = await getDocs(dataCollectionRef);
+      const deletePromises = dataSnap.docs.map((d) => deleteDoc(d.ref));
+
+      // Also delete any sessions sub-collection docs
+      const sessionsRef = collection(db, 'users', user.uid, 'sessions');
+      const sessionsSnap = await getDocs(sessionsRef);
+      sessionsSnap.docs.forEach((d) => deletePromises.push(deleteDoc(d.ref)));
+
+      // Delete journal notes
+      const notesRef = collection(db, 'users', user.uid, 'notes');
+      const notesSnap = await getDocs(notesRef);
+      notesSnap.docs.forEach((d) => deletePromises.push(deleteDoc(d.ref)));
+
+      // Delete daily summaries
+      const summariesRef = collection(db, 'users', user.uid, 'dailySummaries');
+      const summariesSnap = await getDocs(summariesRef);
+      summariesSnap.docs.forEach((d) => deletePromises.push(deleteDoc(d.ref)));
+
+      await Promise.all(deletePromises);
+
+      // Finally delete the Firebase Auth user
+      await deleteUser(auth.currentUser);
+
+      // AuthContext onAuthStateChanged will handle cleanup automatically
+    } catch (error) {
+      console.error('Delete account error:', error);
+      throw error;
+    }
+  };
+
   const value = {
     user,
     userProfile,
@@ -104,7 +144,8 @@ export function AuthProvider({ children }) {
     signInWithGoogle,
     signOut,
     updateProfile,
-    completeOnboarding
+    completeOnboarding,
+    deleteAccount
   };
 
   return (

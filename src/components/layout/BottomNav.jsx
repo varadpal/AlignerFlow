@@ -61,20 +61,26 @@ const navItems = [
 export default function BottomNav() {
   return (
     <nav className="bottom-nav" id="bottom-nav">
-      {navItems.map(item => (
-        <NavLink
-          key={item.path}
-          to={item.path}
-          end={item.path === '/'}
-          className={({ isActive }) =>
-            `bottom-nav__item ${isActive ? 'bottom-nav__item--active' : ''}`
-          }
-          id={`nav-${item.label.toLowerCase()}`}
-        >
-          <span className="bottom-nav__icon">{item.icon}</span>
-          <span className="bottom-nav__label">{item.label}</span>
-        </NavLink>
-      ))}
+      {/* The pill wrapper is a separate element so centering
+          is done by the nav's own flexbox — NOT by CSS transforms.
+          This means it always centres relative to the content column,
+          regardless of viewport width. */}
+      <div className="bottom-nav__pill">
+        {navItems.map(item => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            end={item.path === '/'}
+            className={({ isActive }) =>
+              `bottom-nav__item ${isActive ? 'bottom-nav__item--active' : ''}`
+            }
+            id={`nav-${item.label.toLowerCase()}`}
+          >
+            <span className="bottom-nav__icon">{item.icon}</span>
+            <span className="bottom-nav__label">{item.label}</span>
+          </NavLink>
+        ))}
+      </div>
     </nav>
   );
 }

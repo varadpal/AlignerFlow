@@ -19,6 +19,7 @@
 
 .report__compliance-value {
   font-family: var(--font-display);
+  font-weight: var(--fw-light);
   font-size: 2rem;
   color: var(--success);
   line-height: 1;

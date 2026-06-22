@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { useAuth } from '../../contexts/AuthContext';
-import { getLastNDays } from '../../utils/timeFormatters';
+import { getLastNDays, calculateStreak } from '../../utils/timeFormatters';
 import './StreakBadge.css';
 
 export default function StreakBadge() {
@@ -27,16 +27,8 @@ export default function StreakBadge() {
         summaryMap[doc.id] = doc.data();
       });
 
-      // Count consecutive days meeting goal (from yesterday backward)
-      let count = 0;
-      for (let i = days.length - 2; i >= 0; i--) {
-        const day = days[i];
-        if (summaryMap[day]?.goalMet) {
-          count++;
-        } else {
-          break;
-        }
-      }
+      // Count consecutive days meeting goal using the shared utility
+      const count = calculateStreak(summaryMap, days);
 
       setStreak(count);
     } catch (err) {

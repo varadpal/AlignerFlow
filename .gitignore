@@ -23,3 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 .agents/
+
+# AI assistant / handoff files (not part of the app)
+Handoff_Prompt.md
+.claude/
+CLAUDE.md
+skills-lock.json
+.mcp.json

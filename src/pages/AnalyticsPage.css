@@ -23,9 +23,8 @@
 }
 
 .analytics__tab--active {
-  background: var(--bg-card);
-  color: var(--text-primary);
-  box-shadow: var(--shadow-sm);
+  background: var(--accent-surface);
+  color: var(--accent-text);
 }
 
 /* Loading */
@@ -106,8 +105,17 @@
   transform-origin: bottom;
 }
 
+/* Performance-based bar colours, measured against the user's dynamic goal */
 .analytics__bar--success {
-  background: linear-gradient(180deg, hsl(155, 50%, 55%) 0%, var(--success) 100%);
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-active) 100%);
+}
+
+.analytics__bar--warning {
+  background: linear-gradient(180deg, #ffce21 0%, #ee8e00 100%);
+}
+
+.analytics__bar--danger {
+  background: linear-gradient(180deg, #e0556b 0%, #c81b3a 100%);
 }
 
 @keyframes barGrow {
@@ -184,16 +192,17 @@
   background: var(--bg-elevated);
 }
 
+/* Missed = red signal; on-track ramps through PlayStation Blue */
 .analytics__heat-cell--poor {
-  background: hsl(0, 60%, 85%);
+  background: #e4818f;
 }
 
 .analytics__heat-cell--good {
-  background: hsl(38, 80%, 75%);
+  background: #f5a623;
 }
 
 .analytics__heat-cell--great {
-  background: hsl(155, 50%, 55%);
+  background: var(--accent);
 }
 
 .analytics__heatmap-legend {

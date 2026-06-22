@@ -1,11 +1,10 @@
 import { useTimer } from '../../contexts/TimerContext';
-import { getWearStatus, calcWearPercentage, formatMinutesToDisplay } from '../../utils/timeFormatters';
+import { getOutTimeStatus, formatMinutesToDisplay } from '../../utils/timeFormatters';
 import './DailySummary.css';
 
 export default function DailySummary() {
   const { todaySummary, goalHours } = useTimer();
-  const percentage = calcWearPercentage(todaySummary.totalWearMinutes, goalHours);
-  const status = getWearStatus(percentage);
+  const status = getOutTimeStatus(todaySummary.totalRemovalMinutes, goalHours);
 
   const stats = [
     {

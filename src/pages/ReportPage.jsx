@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { useAuth } from '../contexts/AuthContext';
-import { getLastNDays, formatMinutesToDisplay, formatMinutesToHours, formatDateDisplay } from '../utils/timeFormatters';
+import { getLastNDays, formatMinutesToDisplay, formatMinutesToHours, formatDateDisplay, calculateStreak } from '../utils/timeFormatters';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import Header from '../components/layout/Header';
@@ -53,11 +53,7 @@ export default function ReportPage() {
       const worstDayDate = daysWithData[wearTimes.indexOf(worstDay)];
 
       // Streak
-      let streak = 0;
-      for (let i = daysWithData.length - 1; i >= 0; i--) {
-        if (summaryMap[daysWithData[i]]?.goalMet) streak++;
-        else break;
-      }
+      const streak = calculateStreak(summaryMap, days);
 
       setReportData({
         empty: false,
@@ -87,7 +83,9 @@ export default function ReportPage() {
     if (!card) return;
     
     try {
-      const canvas = await html2canvas(card, { scale: 2, backgroundColor: '#FAF9F6' });
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const bgColor = isDark ? '#000000' : '#ffffff';
+      const canvas = await html2canvas(card, { scale: 2, backgroundColor: bgColor });
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -105,7 +103,9 @@ export default function ReportPage() {
     if (!card) return;
 
     try {
-      const canvas = await html2canvas(card, { scale: 2, backgroundColor: '#FAF9F6' });
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const bgColor = isDark ? '#000000' : '#ffffff';
+      const canvas = await html2canvas(card, { scale: 2, backgroundColor: bgColor });
       canvas.toBlob(async (blob) => {
         if (!blob) return;
         const file = new File([blob], `alignerflow_report.png`, { type: 'image/png' });

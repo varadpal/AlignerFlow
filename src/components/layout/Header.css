@@ -59,6 +59,13 @@
   color: var(--text-primary);
 }
 
+.header__avatar-link {
+  display: flex;
+  border-radius: 50%;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .header__avatar {
   width: 36px;
   height: 36px;
@@ -68,7 +75,7 @@
   transition: transform var(--duration-normal) var(--ease-spring);
 }
 
-.header__avatar:hover {
+.header__avatar-link:hover .header__avatar {
   transform: scale(1.08);
 }
 
