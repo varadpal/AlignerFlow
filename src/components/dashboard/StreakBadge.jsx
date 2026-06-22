@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
+import { collection, query, where, getDocs, documentId } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { useAuth } from '../../contexts/AuthContext';
 import { getLastNDays, calculateStreak } from '../../utils/timeFormatters';
@@ -20,8 +20,9 @@ export default function StreakBadge() {
       const days = getLastNDays(90);
       const summariesRef = collection(db, 'users', user.uid, 'dailySummaries');
 
-      // Fetch all summaries
-      const snapshot = await getDocs(summariesRef);
+      // Only fetch the last 90 days (doc IDs are YYYY-MM-DD)
+      const scopedQuery = query(summariesRef, where(documentId(), '>=', days[0]));
+      const snapshot = await getDocs(scopedQuery);
       const summaryMap = {};
       snapshot.forEach(doc => {
         summaryMap[doc.id] = doc.data();

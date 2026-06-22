@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where, documentId } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { getLastNDays, formatMinutesToDisplay, formatMinutesToHours, formatDateDisplay, calculateStreak } from '../utils/timeFormatters';
-import html2canvas from 'html2canvas';
-import { jsPDF } from 'jspdf';
 import Header from '../components/layout/Header';
 import BottomNav from '../components/layout/BottomNav';
 import './ReportPage.css';
@@ -26,7 +24,9 @@ export default function ReportPage() {
     try {
       const days = getLastNDays(period === 'week' ? 7 : 30);
       const summariesRef = collection(db, 'users', user.uid, 'dailySummaries');
-      const snapshot = await getDocs(summariesRef);
+      // Only fetch the docs in range (IDs are YYYY-MM-DD)
+      const scopedQuery = query(summariesRef, where(documentId(), '>=', days[0]));
+      const snapshot = await getDocs(scopedQuery);
       const summaryMap = {};
       snapshot.forEach(doc => {
         summaryMap[doc.id] = doc.data();
@@ -83,6 +83,11 @@ export default function ReportPage() {
     if (!card) return;
     
     try {
+      // Load the heavy export libs only when the user actually exports
+      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+        import('html2canvas'),
+        import('jspdf')
+      ]);
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       const bgColor = isDark ? '#000000' : '#ffffff';
       const canvas = await html2canvas(card, { scale: 2, backgroundColor: bgColor });
@@ -103,6 +108,7 @@ export default function ReportPage() {
     if (!card) return;
 
     try {
+      const { default: html2canvas } = await import('html2canvas');
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       const bgColor = isDark ? '#000000' : '#ffffff';
       const canvas = await html2canvas(card, { scale: 2, backgroundColor: bgColor });

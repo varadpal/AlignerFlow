@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where, documentId } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { getLastNDays, getDayAbbr, formatMinutesToHours, calculateStreak } from '../utils/timeFormatters';
@@ -23,8 +23,11 @@ export default function AnalyticsPage() {
   const loadData = async () => {
     setLoading(true);
     try {
+      // Only fetch the last 30 days (doc IDs are YYYY-MM-DD, so range by id)
+      const monthDays = getLastNDays(30);
       const summariesRef = collection(db, 'users', user.uid, 'dailySummaries');
-      const snapshot = await getDocs(summariesRef);
+      const scopedQuery = query(summariesRef, where(documentId(), '>=', monthDays[0]));
+      const snapshot = await getDocs(scopedQuery);
       const summaryMap = {};
       snapshot.forEach(doc => {
         summaryMap[doc.id] = doc.data();
@@ -40,8 +43,7 @@ export default function AnalyticsPage() {
       }));
       setWeekData(wData);
 
-      // Month data
-      const monthDays = getLastNDays(30);
+      // Month data (monthDays computed above for the scoped query)
       const mData = monthDays.map(d => ({
         date: d,
         wearMinutes: summaryMap[d]?.totalWearMinutes || 0,
