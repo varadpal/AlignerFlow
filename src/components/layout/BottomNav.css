@@ -83,6 +83,21 @@
   }
 }
 
+/* ── Brand lockup (desktop sidebar only) ─────────────────────────── */
+.bottom-nav__brand {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .bottom-nav__brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: var(--space-xs) var(--space-md) var(--space-lg);
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
 /* ── Nav item ────────────────────────────────────────────────────── */
 .bottom-nav__item {
   display: flex;

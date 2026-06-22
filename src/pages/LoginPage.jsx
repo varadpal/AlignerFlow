@@ -1,4 +1,5 @@
 import { useAuth } from '../contexts/AuthContext';
+import Logo from '../components/common/Logo';
 import './LoginPage.css';
 
 export default function LoginPage() {
@@ -20,25 +21,11 @@ export default function LoginPage() {
       <div className="login-page__orb login-page__orb--3" />
 
       <div className="login-page__content animate-fade-in-up">
-        {/* Logo */}
+        {/* Logo lockup */}
         <div className="login-page__logo">
-          <div className="login-page__logo-ring">
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-              <circle cx="32" cy="32" r="28" stroke="var(--accent)" strokeWidth="3" opacity="0.2" />
-              <circle
-                cx="32" cy="32" r="28"
-                stroke="var(--accent)" strokeWidth="3"
-                strokeDasharray="176"
-                strokeDashoffset="44"
-                strokeLinecap="round"
-                transform="rotate(-90 32 32)"
-              />
-              <text x="32" y="36" textAnchor="middle" fill="var(--accent)" fontSize="20" fontWeight="bold" fontFamily="var(--font-display)">A</text>
-            </svg>
-          </div>
+          <Logo size={96} wordmark layout="column" />
         </div>
 
-        <h1 className="login-page__title">AlignerFlow</h1>
         <p className="login-page__tagline">
           Your smile journey,<br />beautifully tracked
         </p>
