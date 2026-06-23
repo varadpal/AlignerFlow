@@ -822,8 +822,10 @@ body {
     position: relative;
   }
 
-  /* Each route container (.dashboard-page, etc) must fill root */
-  #root > * {
+  /* Each route container (.dashboard-page, etc) must fill root.
+     Exclude the fixed/overlay siblings (reload + install prompts) so they
+     don't become full-size flex children that squish the page. */
+  #root > *:not(.ReloadPrompt-container):not(.install-prompt-overlay) {
     display: flex;
     flex-direction: column;
     width: 100%;

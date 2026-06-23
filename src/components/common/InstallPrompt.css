@@ -13,7 +13,18 @@
 @media (min-width: 768px) {
   .install-prompt-overlay {
     bottom: var(--space-xl);
-    left: var(--sidebar-width, 240px);
+    /* Anchor to the centered app frame's content column */
+    left: calc(50% - 500px + var(--sidebar-width, 240px));
+    right: auto;
+    width: calc(1000px - var(--sidebar-width, 240px));
+  }
+
+  @media (max-width: 1000px) {
+    .install-prompt-overlay {
+      left: var(--sidebar-width, 240px);
+      right: 0;
+      width: auto;
+    }
   }
 }
 

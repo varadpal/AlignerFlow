@@ -3,6 +3,8 @@
   margin: 0;
   width: 0;
   height: 0;
+  /* Wrapper must never intercept clicks; the toast re-enables its own */
+  pointer-events: none;
 }
 
 .ReloadPrompt-toast {
