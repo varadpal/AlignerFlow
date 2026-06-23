@@ -11,6 +11,7 @@ import TrayProgress from '../components/dashboard/TrayProgress';
 import StreakBadge from '../components/dashboard/StreakBadge';
 import ManualEntrySheet from '../components/manual-entry/ManualEntrySheet';
 import SleepModeSheet from '../components/sleep/SleepModeSheet';
+import InfoTip from '../components/common/InfoTip';
 import './DashboardPage.css';
 
 export default function DashboardPage() {
@@ -56,14 +57,22 @@ export default function DashboardPage() {
                 <StreakBadge />
               </div>
               <TrayProgress />
-              <button
-                className="dashboard__sleep-btn btn btn--secondary btn--full"
-                onClick={() => setShowSleepMode(true)}
-                id="open-sleep-mode"
-              >
-                <span>🌙</span>
-                <span>Sleep Mode</span>
-              </button>
+              <div className="dashboard__sleep-row">
+                <button
+                  className="dashboard__sleep-btn btn btn--secondary"
+                  onClick={() => setShowSleepMode(true)}
+                  id="open-sleep-mode"
+                >
+                  <span>🌙</span>
+                  <span>Sleep Mode</span>
+                </button>
+                <InfoTip label="What is Sleep Mode?">
+                  <strong className="info-tip__title">Sleep Mode</strong>
+                  Tracks your aligners overnight. Choose <b>With aligners</b> (recommended)
+                  to keep wear time counting while reminders pause — or <b>Without aligners</b>
+                  to log the night as removal time so your daily total stays accurate.
+                </InfoTip>
+              </div>
             </div>
           </div>
         </div>
