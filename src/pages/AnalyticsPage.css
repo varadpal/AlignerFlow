@@ -216,7 +216,14 @@
 }
 
 .analytics__badge-emoji {
-  font-size: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+
+.analytics__badge--unlocked .analytics__badge-emoji {
+  color: var(--accent);
 }
 
 .analytics__badge-title {

@@ -172,7 +172,7 @@ export default function OnboardingPage() {
 
             <div className="onboarding__info-card card card--accent">
               <p className="text-body-sm">
-                ℹ️ Most orthodontists recommend <strong>20-22 hours</strong> of daily wear. We default to 22h for optimal results.
+                Most orthodontists recommend <strong>20-22 hours</strong> of daily wear. We default to 22h for optimal results.
               </p>
             </div>
 
@@ -186,7 +186,7 @@ export default function OnboardingPage() {
         {/* Step 3: Confirmation */}
         {step === 3 && (
           <div className="onboarding__step animate-fade-in-up" key="step3">
-            <h1 className="text-h1 onboarding__title">You're all set! 🎉</h1>
+            <h1 className="text-h1 onboarding__title">You're all set!</h1>
             <p className="text-body" style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-xl)' }}>
               Here's your treatment summary. You can update these anytime in Settings.
             </p>
@@ -225,7 +225,7 @@ export default function OnboardingPage() {
                 id="onb-complete"
                 style={{ flex: 1 }}
               >
-                {saving ? 'Setting up...' : 'Start Tracking →'}
+                {saving ? 'Setting up...' : 'Start Tracking'}
               </button>
             </div>
           </div>

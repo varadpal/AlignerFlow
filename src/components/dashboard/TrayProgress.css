@@ -12,7 +12,9 @@
 }
 
 .tray-progress__icon {
-  font-size: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  color: var(--accent);
 }
 
 .tray-progress__percent {

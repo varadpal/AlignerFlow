@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { collection, query, orderBy, onSnapshot, addDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { useAuth } from '../contexts/AuthContext';
+import Icon from '../components/common/Icon';
 import Header from '../components/layout/Header';
 import BottomNav from '../components/layout/BottomNav';
 import './NotesPage.css';
@@ -143,7 +144,7 @@ export default function NotesPage() {
           <div className="notes-list">
             {!isComposing && filteredNotes.length === 0 && (
               <div className="notes-list__empty">
-                <div className="notes-list__empty-icon">📝</div>
+                <div className="notes-list__empty-icon"><Icon name="file-text" size={32} /></div>
                 <p>No journal entries found.</p>
                 <p className="text-caption">Tap 'Write Entry' to document your progress.</p>
               </div>

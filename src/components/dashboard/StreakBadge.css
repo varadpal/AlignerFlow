@@ -10,7 +10,8 @@
 }
 
 .streak-badge__fire {
-  font-size: 1.125rem;
+  display: inline-flex;
+  color: #181818;
   animation: breathe 2s ease-in-out infinite;
 }
 

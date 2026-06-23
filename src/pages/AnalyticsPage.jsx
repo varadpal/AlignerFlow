@@ -4,6 +4,7 @@ import { db } from '../config/firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { getLastNDays, getDayAbbr, formatMinutesToHours, calculateStreak } from '../utils/timeFormatters';
 import { ACHIEVEMENTS } from '../utils/constants';
+import Icon from '../components/common/Icon';
 import Header from '../components/layout/Header';
 import BottomNav from '../components/layout/BottomNav';
 import './AnalyticsPage.css';
@@ -251,13 +252,15 @@ export default function AnalyticsPage() {
               {/* RIGHT COLUMN: Achievements */}
               <div className="stack stack--md">
                 <div className="card analytics__achievements">
-                  <h3 className="text-h3" style={{ marginBottom: 'var(--space-md)' }}>🏆 Achievements</h3>
+                  <h3 className="text-h3" style={{ marginBottom: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+                    <Icon name="trophy" size={18} /> Achievements
+                  </h3>
                   <div className="analytics__badge-grid">
                     {Object.values(ACHIEVEMENTS).map(ach => {
                       const isUnlocked = unlockedAchievements.has(ach.id);
                       return (
                         <div key={ach.id} className={`analytics__badge ${isUnlocked ? '' : 'analytics__badge--locked'}`} title={ach.description}>
-                          <span className="analytics__badge-emoji">{ach.emoji}</span>
+                          <span className="analytics__badge-emoji"><Icon name={ach.icon} size={26} /></span>
                           <span className="analytics__badge-title text-caption">{ach.title}</span>
                         </div>
                       );

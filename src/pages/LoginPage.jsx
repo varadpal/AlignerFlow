@@ -1,5 +1,6 @@
 import { useAuth } from '../contexts/AuthContext';
 import Logo from '../components/common/Logo';
+import Icon from '../components/common/Icon';
 import './LoginPage.css';
 
 export default function LoginPage() {
@@ -32,15 +33,15 @@ export default function LoginPage() {
 
         <div className="login-page__features">
           <div className="login-page__feature">
-            <span>⏱</span>
+            <Icon name="clock" size={18} />
             <span>Track wear time effortlessly</span>
           </div>
           <div className="login-page__feature">
-            <span>📊</span>
+            <Icon name="bar-chart" size={18} />
             <span>Beautiful analytics & insights</span>
           </div>
           <div className="login-page__feature">
-            <span>🎯</span>
+            <Icon name="target" size={18} />
             <span>Stay on target with your goals</span>
           </div>
         </div>

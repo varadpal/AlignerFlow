@@ -3,6 +3,7 @@ import { collection, query, where, getDocs, documentId } from 'firebase/firestor
 import { db } from '../../config/firebase';
 import { useAuth } from '../../contexts/AuthContext';
 import { getLastNDays, calculateStreak } from '../../utils/timeFormatters';
+import Icon from '../common/Icon';
 import './StreakBadge.css';
 
 export default function StreakBadge() {
@@ -39,7 +40,7 @@ export default function StreakBadge() {
 
   return (
     <div className="streak-badge" id="streak-badge">
-      <span className="streak-badge__fire">🔥</span>
+      <span className="streak-badge__fire"><Icon name="flame" size={18} /></span>
       <span className="streak-badge__count">{streak}</span>
       <span className="streak-badge__label">day streak</span>
     </div>

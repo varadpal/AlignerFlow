@@ -115,7 +115,8 @@
 
 /* ── Warning icon in over-budget centre ────────────────────────── */
 .radial-ring__over-icon {
-  font-size: 1.4rem;
+  display: inline-flex;
+  color: var(--danger);
   line-height: 1;
   margin-bottom: 2px;
   animation: breathe 2s ease-in-out infinite;

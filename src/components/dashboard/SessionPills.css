@@ -39,7 +39,9 @@
 }
 
 .session-pill__icon {
-  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-muted);
 }
 
 .session-pill__duration {

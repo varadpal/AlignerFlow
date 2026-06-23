@@ -1,5 +1,6 @@
 import { useTimer } from '../../contexts/TimerContext';
 import { formatMinutesToDisplay } from '../../utils/timeFormatters';
+import Icon from '../common/Icon';
 import './RadialRing.css';
 
 export default function RadialRing() {
@@ -137,7 +138,7 @@ export default function RadialRing() {
         {isOverBudget ? (
           /* Over-budget state */
           <>
-            <div className="radial-ring__over-icon">⚠️</div>
+            <div className="radial-ring__over-icon"><Icon name="alert-triangle" size={22} /></div>
             <div className="radial-ring__time radial-ring__time--over">
               +{overByDisplay}
             </div>
@@ -158,7 +159,7 @@ export default function RadialRing() {
               {goalHours}h goal
             </div>
             <div className={`radial-ring__budget ${isWarning ? 'radial-ring__budget--warning' : ''}`}>
-              <span>{isWarning ? '⚠️ ' : ''}out-time left</span>
+              <span>out-time left</span>
             </div>
           </>
         )}

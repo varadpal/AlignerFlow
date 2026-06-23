@@ -308,7 +308,7 @@ export default function SettingsPage() {
               ))}
             </div>
             <p className="text-caption" style={{ color: 'var(--text-muted)', marginTop: 'var(--space-sm)' }}>
-              ℹ️ Times shown are recommended defaults for each activity
+              Times shown are recommended defaults for each activity
             </p>
           </div>
 
@@ -341,7 +341,7 @@ export default function SettingsPage() {
           </button>
 
           <p className="text-caption" style={{ textAlign: 'center', color: 'var(--text-muted)', marginTop: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
-            AlignerFlow v1.0 · Made with 🦷 for your smile
+            AlignerFlow v1.0 · Made for your smile
           </p>
         </div>
       </div>

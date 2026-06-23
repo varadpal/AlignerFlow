@@ -3,6 +3,7 @@ import { collection, getDocs, query, where, documentId } from 'firebase/firestor
 import { db } from '../config/firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { getLastNDays, formatMinutesToDisplay, formatMinutesToHours, formatDateDisplay, calculateStreak } from '../utils/timeFormatters';
+import Icon from '../components/common/Icon';
 import Header from '../components/layout/Header';
 import BottomNav from '../components/layout/BottomNav';
 import './ReportPage.css';
@@ -212,7 +213,7 @@ export default function ReportPage() {
           ) : reportData?.empty ? (
             <div className="report__empty card">
               <p className="text-body" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
-                📊 No data yet for this period.<br />Start tracking to see your report!
+                No data yet for this period.<br />Start tracking to see your report.
               </p>
             </div>
           ) : (
@@ -267,8 +268,8 @@ export default function ReportPage() {
                   </div>
                   <div className="report__metric">
                     <div className="report__metric-label text-caption">Current Streak</div>
-                    <div className="report__metric-value">
-                      🔥 {reportData.streak} days
+                    <div className="report__metric-value" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <Icon name="flame" size={18} /> {reportData.streak} days
                     </div>
                   </div>
                   {reportData.currentTray && (
@@ -285,14 +286,14 @@ export default function ReportPage() {
               {/* Actions */}
               <div className="report__actions">
                 <button className="btn btn--primary btn--full" id="share-report" onClick={handleShare}>
-                  📤 Share Report
+                  <Icon name="share" size={16} /> Share Report
                 </button>
                 <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
                   <button className="btn btn--secondary btn--full" id="export-pdf" onClick={handleExportPDF}>
-                    📄 Export PDF
+                    <Icon name="file-text" size={16} /> Export PDF
                   </button>
                   <button className="btn btn--secondary btn--full" id="export-csv" onClick={handleExportCSV}>
-                    📊 Export CSV
+                    <Icon name="download" size={16} /> Export CSV
                   </button>
                 </div>
               </div>

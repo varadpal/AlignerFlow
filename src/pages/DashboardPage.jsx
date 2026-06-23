@@ -12,6 +12,7 @@ import StreakBadge from '../components/dashboard/StreakBadge';
 import ManualEntrySheet from '../components/manual-entry/ManualEntrySheet';
 import SleepModeSheet from '../components/sleep/SleepModeSheet';
 import InfoTip from '../components/common/InfoTip';
+import Icon from '../components/common/Icon';
 import './DashboardPage.css';
 
 export default function DashboardPage() {
@@ -63,7 +64,7 @@ export default function DashboardPage() {
                   onClick={() => setShowSleepMode(true)}
                   id="open-sleep-mode"
                 >
-                  <span>🌙</span>
+                  <Icon name="moon" size={16} />
                   <span>Sleep Mode</span>
                 </button>
                 <InfoTip label="What is Sleep Mode?">

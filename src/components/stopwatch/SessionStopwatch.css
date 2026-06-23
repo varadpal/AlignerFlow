@@ -12,8 +12,10 @@
 }
 
 .session-stopwatch__icon {
-  font-size: 1.25rem;
+  display: inline-flex;
+  align-items: center;
   flex-shrink: 0;
+  color: var(--accent-text);
 }
 
 .session-stopwatch__info {
