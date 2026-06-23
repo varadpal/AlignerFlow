@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import SkyToggle from '../ui/SkyToggle';
+import Logo from '../common/Logo';
 import './Header.css';
 
 export default function Header() {
@@ -31,9 +32,14 @@ export default function Header() {
   return (
     <header className="header" id="app-header">
       <div className="header__inner">
-        <div className="header__left">
-          <div className="header__greeting text-body-sm">{getGreeting()},</div>
-          <div className="header__name text-h3">{firstName}</div>
+        <div className="header__brand">
+          <Link to="/" className="header__logo" aria-label="AlignerFlow home">
+            <Logo size={32} />
+          </Link>
+          <div className="header__left">
+            <div className="header__greeting text-body-sm">{getGreeting()},</div>
+            <div className="header__name text-h3">{firstName}</div>
+          </div>
         </div>
         <div className="header__right" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
           <SkyToggle

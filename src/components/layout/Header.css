@@ -41,9 +41,23 @@
   }
 }
 
+.header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.header__logo {
+  display: flex;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .header__left {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .header__greeting {
