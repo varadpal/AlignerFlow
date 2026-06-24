@@ -260,7 +260,9 @@ export default function AnalyticsPage() {
                       const isUnlocked = unlockedAchievements.has(ach.id);
                       return (
                         <div key={ach.id} className={`analytics__badge ${isUnlocked ? '' : 'analytics__badge--locked'}`} title={ach.description}>
-                          <span className="analytics__badge-emoji"><Icon name={ach.icon} size={26} /></span>
+                          <span className="analytics__badge-emoji" style={{ background: ach.color }}>
+                            <Icon name={ach.icon} size={22} strokeWidth={2.25} />
+                          </span>
                           <span className="analytics__badge-title text-caption">{ach.title}</span>
                         </div>
                       );

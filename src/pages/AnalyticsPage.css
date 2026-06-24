@@ -212,18 +212,18 @@
 .analytics__badge--unlocked {
   opacity: 1;
   filter: none;
-  background: var(--accent-surface);
 }
 
+/* Filled, colored achievement disc with a white icon */
 .analytics__badge-emoji {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-muted);
-}
-
-.analytics__badge--unlocked .analytics__badge-emoji {
-  color: var(--accent);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  color: #fff;
+  flex-shrink: 0;
 }
 
 .analytics__badge-title {
