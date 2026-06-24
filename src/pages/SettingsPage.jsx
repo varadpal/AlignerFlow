@@ -29,7 +29,7 @@ export default function SettingsPage() {
         totalTrays: userProfile.totalTrays || '',
         currentTray: userProfile.currentTray || '',
         trayDurationDays: userProfile.trayDurationDays || 14,
-        alignerBrand: userProfile.alignerBrand || ''
+        alignerBrand: userProfile.alignerBrand || 'SAIMS Aligners'
       });
     }
   }, [userProfile]);
@@ -224,7 +224,6 @@ export default function SettingsPage() {
                 <input
                   className="input"
                   type="text"
-                  placeholder="Aligner brand (optional)"
                   value={treatmentForm.alignerBrand}
                   onChange={e => setTreatmentForm(f => ({ ...f, alignerBrand: e.target.value }))}
                 />

@@ -13,7 +13,7 @@ export default function OnboardingPage() {
   const [trayDurationDays, setTrayDurationDays] = useState(DEFAULT_TRAY_DURATION_DAYS);
   const [currentTray, setCurrentTray] = useState('1');
   const [trayStartDate, setTrayStartDate] = useState(new Date().toISOString().split('T')[0]);
-  const [alignerBrand, setAlignerBrand] = useState('');
+  const [alignerBrand, setAlignerBrand] = useState('SAIMS Aligners');
   const [dailyWearGoalHours, setDailyWearGoalHours] = useState(DEFAULT_WEAR_GOAL_HOURS);
 
   const totalSteps = 3;
@@ -121,7 +121,6 @@ export default function OnboardingPage() {
                 <input
                   type="text"
                   className="input input--lg"
-                  placeholder="e.g., Invisalign, ClearCorrect"
                   value={alignerBrand}
                   onChange={e => setAlignerBrand(e.target.value)}
                   id="onb-brand"
