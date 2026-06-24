@@ -6,7 +6,8 @@ import {
 import { db } from '../config/firebase';
 import { useAuth } from './AuthContext';
 import { getTodayString } from '../utils/timeFormatters';
-import { MINUTES_IN_DAY } from '../utils/constants';
+import { MINUTES_IN_DAY, REMOVAL_ALERTS } from '../utils/constants';
+import { showAppNotification } from '../utils/notify';
 
 const TimerContext = createContext(null);
 
@@ -42,6 +43,38 @@ export function TimerProvider({ children }) {
     });
     return () => unsub();
   }, [user]);
+
+  // ─── Daily time-based reminders (fire while the app is open) ───
+  // Background delivery (app closed) needs FCM web push — see NOTIFICATIONS.md.
+  useEffect(() => {
+    if (!user) return;
+
+    const checkReminders = () => {
+      if (!userSettings?.notificationsEnabled) return;
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+      const reminders = userSettings.reminders || [];
+      const now = new Date();
+      const current = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const today = getTodayString();
+
+      reminders.forEach((r) => {
+        if (!r.enabled || !r.time || r.time !== current) return;
+        // localStorage guard so each reminder fires at most once per day
+        const key = `af-reminder-${r.id}-${today}`;
+        if (localStorage.getItem(key)) return;
+        localStorage.setItem(key, '1');
+        showAppNotification(r.label, {
+          body: r.bestPracticeNote || 'AlignerFlow reminder',
+          tag: key,
+        });
+      });
+    };
+
+    checkReminders();
+    const id = setInterval(checkReminders, 30000); // catch the minute window
+    return () => clearInterval(id);
+  }, [user, userSettings]);
 
   // ─── Listen for active session from Firestore ───
   useEffect(() => {
@@ -85,22 +118,22 @@ export function TimerProvider({ children }) {
         const currentElapsed = calcElapsed();
         setElapsedSeconds(currentElapsed);
 
-        // Check for notifications
-        if (userSettings?.notificationsEnabled && 'Notification' in window && Notification.permission === 'granted') {
-          const reminders = userSettings.reminders || [];
-          reminders.forEach(reminder => {
-            if (!reminder.enabled) return;
-            
-            let thresholdMinutes = 0;
-            if (reminder.label.includes('Clean')) thresholdMinutes = 15;
-            else if (reminder.label.includes('Snack')) thresholdMinutes = 30;
-            else if (reminder.label.includes('Meal')) thresholdMinutes = 45;
-
-            if (thresholdMinutes > 0 && currentElapsed >= thresholdMinutes * 60 && !firedNotificationsRef.current.has(reminder.id)) {
-              firedNotificationsRef.current.add(reminder.id);
-              new Notification('AlignerFlow Reminder', {
-                body: `It's been ${thresholdMinutes} minutes. ${reminder.bestPracticeNote}`,
-                icon: '/icon.svg'
+        // Removal-too-long alerts — fire once per threshold while aligners
+        // are out (skip intentional "sleep without aligners" sessions).
+        if (
+          userSettings?.notificationsEnabled &&
+          activeSession.type !== 'sleep_without' &&
+          'Notification' in window &&
+          Notification.permission === 'granted'
+        ) {
+          const elapsedMinutes = Math.floor(currentElapsed / 60);
+          REMOVAL_ALERTS.forEach((threshold) => {
+            const key = `removal-${threshold}`;
+            if (elapsedMinutes >= threshold && !firedNotificationsRef.current.has(key)) {
+              firedNotificationsRef.current.add(key);
+              showAppNotification('Aligners still out', {
+                body: `Your aligners have been out for ${threshold} minutes. Pop them back in to stay on track.`,
+                tag: `removal-alert-${threshold}`,
               });
             }
           });

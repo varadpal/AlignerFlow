@@ -3,6 +3,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { DEFAULT_REMINDERS } from '../utils/constants';
+import { showAppNotification } from '../utils/notify';
 import Header from '../components/layout/Header';
 import BottomNav from '../components/layout/BottomNav';
 import SkyToggle from '../components/ui/SkyToggle';
@@ -309,6 +310,24 @@ export default function SettingsPage() {
             </div>
             <p className="text-caption" style={{ color: 'var(--text-muted)', marginTop: 'var(--space-sm)' }}>
               Times shown are recommended defaults for each activity
+            </p>
+            {settings?.notificationsEnabled && (
+              <button
+                className="btn btn--secondary btn--sm"
+                style={{ marginTop: 'var(--space-md)' }}
+                onClick={() =>
+                  showAppNotification('AlignerFlow', {
+                    body: 'Test alert — notifications are working.',
+                    tag: 'af-test',
+                  })
+                }
+              >
+                Send a test alert
+              </button>
+            )}
+            <p className="text-caption" style={{ color: 'var(--text-muted)', marginTop: 'var(--space-sm)' }}>
+              Reminders fire while AlignerFlow is open. Background alerts when the app is
+              closed are coming in a future update.
             </p>
           </div>
 
