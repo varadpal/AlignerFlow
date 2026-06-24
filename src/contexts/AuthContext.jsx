@@ -104,7 +104,7 @@ export function AuthProvider({ children }) {
     const uid = user.uid;
 
     // 1) Firebase requires recent authentication before deleting an account.
-    await reauthenticateWithPopup(auth, googleProvider);
+    await reauthenticateWithPopup(auth.currentUser, googleProvider);
 
     // 2) Best-effort cleanup of Firestore data while still authenticated.
     //    A cleanup failure must NOT block the actual account deletion.
@@ -128,7 +128,7 @@ export function AuthProvider({ children }) {
       await deleteUser(auth.currentUser);
     } catch (error) {
       if (error.code === 'auth/requires-recent-login') {
-        await reauthenticateWithPopup(auth, googleProvider);
+        await reauthenticateWithPopup(auth.currentUser, googleProvider);
         await deleteUser(auth.currentUser);
       } else {
         console.error('Delete account error:', error);
