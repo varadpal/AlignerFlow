@@ -111,11 +111,14 @@ export default function SettingsPage() {
       // onAuthStateChanged in AuthContext will redirect to /login automatically
     } catch (err) {
       setDeleteLoading(false);
+      console.error('Delete account failed:', err);
       if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
         // User closed the re-auth popup — silently abort
         setShowDeleteSheet(false);
+      } else if (err.code === 'auth/popup-blocked') {
+        alert('Your browser blocked the verification popup. Please allow popups for this site and try again.');
       } else {
-        alert('Failed to delete account. Please try again or contact support.');
+        alert(`Failed to delete account (${err.code || err.message || 'unknown error'}). Please try again or contact support.`);
       }
     }
   };

@@ -101,40 +101,41 @@ export function AuthProvider({ children }) {
 
   const deleteAccount = async () => {
     if (!user) return;
+    const uid = user.uid;
+
+    // 1) Firebase requires recent authentication before deleting an account.
+    await reauthenticateWithPopup(auth, googleProvider);
+
+    // 2) Best-effort cleanup of Firestore data while still authenticated.
+    //    A cleanup failure must NOT block the actual account deletion.
+    const clearCollection = async (path) => {
+      try {
+        const snap = await getDocs(collection(db, 'users', uid, path));
+        await Promise.all(snap.docs.map((d) => deleteDoc(d.ref)));
+      } catch (err) {
+        console.error(`Account data cleanup failed for "${path}":`, err);
+      }
+    };
+    await Promise.all([
+      clearCollection('data'),
+      clearCollection('sessions'),
+      clearCollection('notes'),
+      clearCollection('dailySummaries'),
+    ]);
+
+    // 3) Delete the Firebase Auth user (re-auth + retry if the window lapsed).
     try {
-      // Firebase requires recent authentication before deleting an account.
-      await reauthenticateWithPopup(auth, googleProvider);
-
-      // Delete all known Firestore sub-documents under users/{uid}/data/
-      const dataCollectionRef = collection(db, 'users', user.uid, 'data');
-      const dataSnap = await getDocs(dataCollectionRef);
-      const deletePromises = dataSnap.docs.map((d) => deleteDoc(d.ref));
-
-      // Also delete any sessions sub-collection docs
-      const sessionsRef = collection(db, 'users', user.uid, 'sessions');
-      const sessionsSnap = await getDocs(sessionsRef);
-      sessionsSnap.docs.forEach((d) => deletePromises.push(deleteDoc(d.ref)));
-
-      // Delete journal notes
-      const notesRef = collection(db, 'users', user.uid, 'notes');
-      const notesSnap = await getDocs(notesRef);
-      notesSnap.docs.forEach((d) => deletePromises.push(deleteDoc(d.ref)));
-
-      // Delete daily summaries
-      const summariesRef = collection(db, 'users', user.uid, 'dailySummaries');
-      const summariesSnap = await getDocs(summariesRef);
-      summariesSnap.docs.forEach((d) => deletePromises.push(deleteDoc(d.ref)));
-
-      await Promise.all(deletePromises);
-
-      // Finally delete the Firebase Auth user
       await deleteUser(auth.currentUser);
-
-      // AuthContext onAuthStateChanged will handle cleanup automatically
     } catch (error) {
-      console.error('Delete account error:', error);
-      throw error;
+      if (error.code === 'auth/requires-recent-login') {
+        await reauthenticateWithPopup(auth, googleProvider);
+        await deleteUser(auth.currentUser);
+      } else {
+        console.error('Delete account error:', error);
+        throw error;
+      }
     }
+    // onAuthStateChanged handles redirect/cleanup once the user is gone.
   };
 
   const value = {
