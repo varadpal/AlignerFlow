@@ -77,47 +77,7 @@
   line-height: 1;
 }
 
-.onboarding__slider-container {
-  margin-bottom: var(--space-lg);
-}
-
-.onboarding__slider {
-  width: 100%;
-  height: 6px;
-  border-radius: 3px;
-  background: var(--bg-elevated);
-  outline: none;
-  appearance: none;
-  -webkit-appearance: none;
-}
-
-.onboarding__slider::-webkit-slider-thumb {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 3px solid white;
-  box-shadow: var(--shadow-md), 0 0 0 4px var(--accent-glow);
-  cursor: pointer;
-  transition: transform var(--duration-fast) var(--ease-spring);
-}
-
-.onboarding__slider::-webkit-slider-thumb:hover {
-  transform: scale(1.15);
-}
-
-.onboarding__slider::-webkit-slider-thumb:active {
-  transform: scale(0.95);
-}
-
-.onboarding__slider-labels {
-  display: flex;
-  justify-content: space-between;
-  margin-top: var(--space-xs);
-  color: var(--text-muted);
-}
+/* Range slider styles now live globally in index.css (shared by Settings) */
 
 .onboarding__info-card {
   margin-bottom: var(--space-xl);

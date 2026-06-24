@@ -1,4 +1,5 @@
 import { useAuth } from '../../contexts/AuthContext';
+import Icon from '../common/Icon';
 import './TrayProgress.css';
 
 export default function TrayProgress() {
@@ -22,7 +23,7 @@ export default function TrayProgress() {
     <div className="tray-progress card card--flat" id="tray-progress">
       <div className="tray-progress__row">
         <div className="tray-progress__info">
-          <span className="tray-progress__icon">🦷</span>
+          <span className="tray-progress__icon"><Icon name="layers" size={22} /></span>
           <div>
             <div className="text-h3">Tray {currentTray} of {totalTrays}</div>
             <div className="text-caption" style={{ color: 'var(--text-muted)' }}>

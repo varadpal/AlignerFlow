@@ -41,9 +41,23 @@
   }
 }
 
+.header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.header__logo {
+  display: flex;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .header__left {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .header__greeting {
@@ -59,6 +73,13 @@
   color: var(--text-primary);
 }
 
+.header__avatar-link {
+  display: flex;
+  border-radius: 50%;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .header__avatar {
   width: 36px;
   height: 36px;
@@ -68,7 +89,7 @@
   transition: transform var(--duration-normal) var(--ease-spring);
 }
 
-.header__avatar:hover {
+.header__avatar-link:hover .header__avatar {
   transform: scale(1.08);
 }
 

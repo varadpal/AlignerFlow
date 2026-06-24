@@ -1,5 +1,6 @@
 import { useTimer } from '../../contexts/TimerContext';
 import { formatSecondsToStopwatch } from '../../utils/timeFormatters';
+import Icon from '../common/Icon';
 import './SessionStopwatch.css';
 
 export default function SessionStopwatch() {
@@ -14,7 +15,7 @@ export default function SessionStopwatch() {
   return (
     <div className="session-stopwatch animate-fade-in-up" id="session-stopwatch">
       <div className="session-stopwatch__icon">
-        {activeSession.type === 'sleep_without' ? '😴' : '⏱'}
+        {activeSession.type === 'sleep_without' ? <Icon name="moon" size={18} /> : <Icon name="clock" size={18} />}
       </div>
       <div className="session-stopwatch__info">
         <div className="session-stopwatch__time">

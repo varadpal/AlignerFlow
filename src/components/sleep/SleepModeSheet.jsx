@@ -1,4 +1,5 @@
 import { useTimer } from '../../contexts/TimerContext';
+import Icon from '../common/Icon';
 import './SleepModeSheet.css';
 
 export default function SleepModeSheet({ isOpen, onClose }) {
@@ -26,8 +27,8 @@ export default function SleepModeSheet({ isOpen, onClose }) {
       <div className={`bottom-sheet ${isOpen ? 'visible' : ''}`} id="sleep-mode-sheet">
         <div className="bottom-sheet__handle" />
 
-        <h2 className="text-h2" style={{ marginBottom: 'var(--space-xs)' }}>
-          🌙 Sleep Mode
+        <h2 className="text-h2" style={{ marginBottom: 'var(--space-xs)', display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+          <Icon name="moon" size={20} /> Sleep Mode
         </h2>
         <p className="text-body-sm" style={{ color: 'var(--text-muted)', marginBottom: 'var(--space-lg)' }}>
           How are you sleeping tonight?
@@ -35,8 +36,8 @@ export default function SleepModeSheet({ isOpen, onClose }) {
 
         {isInRemoval && (
           <div className="sleep-mode__warning card card--flat" style={{ marginBottom: 'var(--space-md)', padding: 'var(--space-sm) var(--space-md)', background: 'var(--warning-surface)' }}>
-            <p className="text-body-sm" style={{ color: 'var(--warning-text)' }}>
-              ⚠️ You have an active removal session. It will be stopped before sleep mode starts.
+            <p className="text-body-sm" style={{ color: 'var(--warning-text)', display: 'flex', alignItems: 'flex-start', gap: 'var(--space-xs)' }}>
+              <Icon name="alert-triangle" size={16} /> You have an active removal session. It will be stopped before sleep mode starts.
             </p>
           </div>
         )}
@@ -47,7 +48,7 @@ export default function SleepModeSheet({ isOpen, onClose }) {
             onClick={handleSleepWith}
             id="sleep-with-aligners"
           >
-            <span className="sleep-mode__option-emoji">😴</span>
+            <span className="sleep-mode__option-emoji"><Icon name="moon" size={26} /></span>
             <div className="sleep-mode__option-content">
               <div className="sleep-mode__option-title text-h3">Sleeping WITH aligners</div>
               <div className="text-body-sm" style={{ color: 'var(--text-secondary)' }}>
@@ -62,7 +63,7 @@ export default function SleepModeSheet({ isOpen, onClose }) {
             onClick={handleSleepWithout}
             id="sleep-without-aligners"
           >
-            <span className="sleep-mode__option-emoji">⚠️</span>
+            <span className="sleep-mode__option-emoji"><Icon name="alert-triangle" size={26} /></span>
             <div className="sleep-mode__option-content">
               <div className="sleep-mode__option-title text-h3">Sleeping WITHOUT aligners</div>
               <div className="text-body-sm" style={{ color: 'var(--text-secondary)' }}>

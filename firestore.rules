@@ -1,0 +1,33 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Users can read/write their own data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Subcollections under user doc
+      match /data/{document=**} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+      match /sessions/{document=**} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+      match /dailySummaries/{document=**} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+      match /notes/{document=**} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+      match /settings/{document=**} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+  }
+}

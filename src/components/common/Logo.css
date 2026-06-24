@@ -1,0 +1,29 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+.logo--column {
+  flex-direction: column;
+}
+
+.logo__symbol {
+  display: block;
+  flex-shrink: 0;
+}
+
+.logo__wordmark {
+  font-family: 'Outfit', var(--font-body);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.logo__word-light {
+  font-weight: 300;
+}
+
+.logo__word-bold {
+  font-weight: 600;
+}

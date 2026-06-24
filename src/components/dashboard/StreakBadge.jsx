@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
+import { collection, query, where, getDocs, documentId } from 'firebase/firestore';
 import { db } from '../../config/firebase';
 import { useAuth } from '../../contexts/AuthContext';
-import { getLastNDays } from '../../utils/timeFormatters';
+import { getLastNDays, calculateStreak } from '../../utils/timeFormatters';
+import Icon from '../common/Icon';
 import './StreakBadge.css';
 
 export default function StreakBadge() {
@@ -11,32 +12,25 @@ export default function StreakBadge() {
 
   useEffect(() => {
     if (!user) return;
-    calculateStreak();
+    loadStreak();
   }, [user]);
 
-  const calculateStreak = async () => {
+  const loadStreak = async () => {
     try {
       // Check last 90 days for streak
       const days = getLastNDays(90);
       const summariesRef = collection(db, 'users', user.uid, 'dailySummaries');
 
-      // Fetch all summaries
-      const snapshot = await getDocs(summariesRef);
+      // Only fetch the last 90 days (doc IDs are YYYY-MM-DD)
+      const scopedQuery = query(summariesRef, where(documentId(), '>=', days[0]));
+      const snapshot = await getDocs(scopedQuery);
       const summaryMap = {};
       snapshot.forEach(doc => {
         summaryMap[doc.id] = doc.data();
       });
 
-      // Count consecutive days meeting goal (from yesterday backward)
-      let count = 0;
-      for (let i = days.length - 2; i >= 0; i--) {
-        const day = days[i];
-        if (summaryMap[day]?.goalMet) {
-          count++;
-        } else {
-          break;
-        }
-      }
+      // Count consecutive days meeting goal using the shared utility
+      const count = calculateStreak(summaryMap, days);
 
       setStreak(count);
     } catch (err) {
@@ -46,7 +40,7 @@ export default function StreakBadge() {
 
   return (
     <div className="streak-badge" id="streak-badge">
-      <span className="streak-badge__fire">🔥</span>
+      <span className="streak-badge__fire"><Icon name="flame" size={18} /></span>
       <span className="streak-badge__count">{streak}</span>
       <span className="streak-badge__label">day streak</span>
     </div>

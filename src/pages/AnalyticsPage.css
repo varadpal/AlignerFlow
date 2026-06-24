@@ -1,52 +1,5 @@
-.analytics__tabs {
-  display: flex;
-  background: var(--bg-elevated);
-  border-radius: var(--radius-md);
-  padding: 3px;
-  gap: 3px;
-  margin-bottom: var(--space-md);
-}
-
-.analytics__tab {
-  flex: 1;
-  padding: var(--space-xs) var(--space-md);
-  border: none;
-  border-radius: calc(var(--radius-md) - 2px);
-  background: transparent;
-  color: var(--text-muted);
-  font-family: var(--font-body);
-  font-weight: var(--fw-semibold);
-  font-size: 0.8125rem;
-  cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-smooth);
-  -webkit-tap-highlight-color: transparent;
-}
-
-.analytics__tab--active {
-  background: var(--bg-card);
-  color: var(--text-primary);
-  box-shadow: var(--shadow-sm);
-}
-
-/* Loading */
-.analytics__loading {
-  display: flex;
-  justify-content: center;
-  padding: var(--space-3xl);
-}
-
-.analytics__spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+/* Tab switcher + loading spinner now live globally in index.css
+   (shared with Reports) */
 
 /* Bar Chart */
 .analytics__chart-card {
@@ -106,8 +59,17 @@
   transform-origin: bottom;
 }
 
+/* Performance-based bar colours, measured against the user's dynamic goal */
 .analytics__bar--success {
-  background: linear-gradient(180deg, hsl(155, 50%, 55%) 0%, var(--success) 100%);
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-active) 100%);
+}
+
+.analytics__bar--warning {
+  background: linear-gradient(180deg, #ffce21 0%, #ee8e00 100%);
+}
+
+.analytics__bar--danger {
+  background: linear-gradient(180deg, #e0556b 0%, #c81b3a 100%);
 }
 
 @keyframes barGrow {
@@ -184,16 +146,17 @@
   background: var(--bg-elevated);
 }
 
+/* Missed = red signal; on-track ramps through PlayStation Blue */
 .analytics__heat-cell--poor {
-  background: hsl(0, 60%, 85%);
+  background: #e4818f;
 }
 
 .analytics__heat-cell--good {
-  background: hsl(38, 80%, 75%);
+  background: #f5a623;
 }
 
 .analytics__heat-cell--great {
-  background: hsl(155, 50%, 55%);
+  background: var(--accent);
 }
 
 .analytics__heatmap-legend {
@@ -249,11 +212,18 @@
 .analytics__badge--unlocked {
   opacity: 1;
   filter: none;
-  background: var(--accent-surface);
 }
 
+/* Filled, colored achievement disc with a white icon */
 .analytics__badge-emoji {
-  font-size: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  color: #fff;
+  flex-shrink: 0;
 }
 
 .analytics__badge-title {

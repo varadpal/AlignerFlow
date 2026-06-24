@@ -158,8 +158,8 @@ export function TimerProvider({ children }) {
     const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const minutesElapsedToday = (now - startOfDay) / (1000 * 60);
 
-    // Wear = 24 hours - total removal time
-    const wearMinutes = Math.max(0, MINUTES_IN_DAY - totalRemoval);
+    // Wear = (Elapsed time today) - total removal time
+    const wearMinutes = Math.max(0, Math.min(MINUTES_IN_DAY, minutesElapsedToday) - totalRemoval);
 
     const goalMinutes = goalHours * 60;
 
@@ -266,7 +266,12 @@ export function TimerProvider({ children }) {
         sleepStartTime: Timestamp.now()
       }, { merge: true });
     } else {
-      // Sleeping without aligners — start a removal session of type 'sleep_without'
+      // Sleeping without aligners
+      // Fix #3: Stop any active removal session first!
+      if (activeSession?.isActive) {
+        await stopSession();
+      }
+      
       await startSession('sleep_without');
       const settingsRef = doc(db, 'users', user.uid, 'data', 'settings');
       await setDoc(settingsRef, {
@@ -275,7 +280,7 @@ export function TimerProvider({ children }) {
         sleepStartTime: Timestamp.now()
       }, { merge: true });
     }
-  }, [user, startSession]);
+  }, [user, startSession, activeSession, stopSession]);
 
   // ─── End sleep mode ───
   const endSleepMode = useCallback(async () => {

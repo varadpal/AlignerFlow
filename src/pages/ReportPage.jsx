@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where, documentId } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import { useAuth } from '../contexts/AuthContext';
-import { getLastNDays, formatMinutesToDisplay, formatMinutesToHours, formatDateDisplay } from '../utils/timeFormatters';
-import html2canvas from 'html2canvas';
-import { jsPDF } from 'jspdf';
+import { getLastNDays, formatMinutesToDisplay, formatMinutesToHours, formatDateDisplay, calculateStreak } from '../utils/timeFormatters';
+import Icon from '../components/common/Icon';
 import Header from '../components/layout/Header';
 import BottomNav from '../components/layout/BottomNav';
 import './ReportPage.css';
@@ -26,7 +25,9 @@ export default function ReportPage() {
     try {
       const days = getLastNDays(period === 'week' ? 7 : 30);
       const summariesRef = collection(db, 'users', user.uid, 'dailySummaries');
-      const snapshot = await getDocs(summariesRef);
+      // Only fetch the docs in range (IDs are YYYY-MM-DD)
+      const scopedQuery = query(summariesRef, where(documentId(), '>=', days[0]));
+      const snapshot = await getDocs(scopedQuery);
       const summaryMap = {};
       snapshot.forEach(doc => {
         summaryMap[doc.id] = doc.data();
@@ -53,11 +54,7 @@ export default function ReportPage() {
       const worstDayDate = daysWithData[wearTimes.indexOf(worstDay)];
 
       // Streak
-      let streak = 0;
-      for (let i = daysWithData.length - 1; i >= 0; i--) {
-        if (summaryMap[daysWithData[i]]?.goalMet) streak++;
-        else break;
-      }
+      const streak = calculateStreak(summaryMap, days);
 
       setReportData({
         empty: false,
@@ -87,7 +84,14 @@ export default function ReportPage() {
     if (!card) return;
     
     try {
-      const canvas = await html2canvas(card, { scale: 2, backgroundColor: '#FAF9F6' });
+      // Load the heavy export libs only when the user actually exports
+      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+        import('html2canvas'),
+        import('jspdf')
+      ]);
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const bgColor = isDark ? '#000000' : '#ffffff';
+      const canvas = await html2canvas(card, { scale: 2, backgroundColor: bgColor });
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -105,7 +109,10 @@ export default function ReportPage() {
     if (!card) return;
 
     try {
-      const canvas = await html2canvas(card, { scale: 2, backgroundColor: '#FAF9F6' });
+      const { default: html2canvas } = await import('html2canvas');
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const bgColor = isDark ? '#000000' : '#ffffff';
+      const canvas = await html2canvas(card, { scale: 2, backgroundColor: bgColor });
       canvas.toBlob(async (blob) => {
         if (!blob) return;
         const file = new File([blob], `alignerflow_report.png`, { type: 'image/png' });
@@ -206,7 +213,7 @@ export default function ReportPage() {
           ) : reportData?.empty ? (
             <div className="report__empty card">
               <p className="text-body" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
-                📊 No data yet for this period.<br />Start tracking to see your report!
+                No data yet for this period.<br />Start tracking to see your report.
               </p>
             </div>
           ) : (
@@ -261,8 +268,8 @@ export default function ReportPage() {
                   </div>
                   <div className="report__metric">
                     <div className="report__metric-label text-caption">Current Streak</div>
-                    <div className="report__metric-value">
-                      🔥 {reportData.streak} days
+                    <div className="report__metric-value" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <Icon name="flame" size={18} /> {reportData.streak} days
                     </div>
                   </div>
                   {reportData.currentTray && (
@@ -279,14 +286,14 @@ export default function ReportPage() {
               {/* Actions */}
               <div className="report__actions">
                 <button className="btn btn--primary btn--full" id="share-report" onClick={handleShare}>
-                  📤 Share Report
+                  <Icon name="share" size={16} /> Share Report
                 </button>
                 <div style={{ display: 'flex', gap: 'var(--space-sm)' }}>
                   <button className="btn btn--secondary btn--full" id="export-pdf" onClick={handleExportPDF}>
-                    📄 Export PDF
+                    <Icon name="file-text" size={16} /> Export PDF
                   </button>
                   <button className="btn btn--secondary btn--full" id="export-csv" onClick={handleExportCSV}>
-                    📊 Export CSV
+                    <Icon name="download" size={16} /> Export CSV
                   </button>
                 </div>
               </div>

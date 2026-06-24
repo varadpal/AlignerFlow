@@ -5,6 +5,24 @@ export default function InstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
+
+  useEffect(() => {
+    // Detect iOS for custom fallback message
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    const isIOSDevice = /iphone|ipad|ipod/.test(userAgent);
+    setIsIOS(isIOSDevice);
+
+    // Check if already installed
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    const dismissed = localStorage.getItem('pwaPromptDismissed');
+
+    if (!isStandalone && !dismissed) {
+      // Delay showing the prompt slightly to let the app load
+      const timer = setTimeout(() => setIsVisible(true), 2500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e) => {
@@ -12,26 +30,20 @@ export default function InstallPrompt() {
       e.preventDefault();
       // Stash the event so it can be triggered later.
       setDeferredPrompt(e);
-      
-      // If user hasn't dismissed it this session/ever, show our custom UI
-      const dismissed = localStorage.getItem('pwaPromptDismissed');
-      if (!dismissed) {
-        setIsVisible(true);
-      }
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-    // For testing purposes during development, you can uncomment this:
-    // if (!localStorage.getItem('pwaPromptDismissed')) setIsVisible(true);
-
     return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
   }, []);
 
   const handleInstall = async () => {
     if (!deferredPrompt) {
       // Fallback for iOS/safari or when prompt isn't available
-      alert('To install, tap the Share icon and select "Add to Home Screen".');
+      if (isIOS) {
+        alert('To install on iOS: Tap the Share icon (square with arrow) at the bottom or top of Safari, then select "Add to Home Screen".');
+      } else {
+        alert('To install, open your browser menu and select "Add to Home Screen" or "Install App".');
+      }
       return;
     }
     
@@ -43,7 +55,9 @@ export default function InstallPrompt() {
     
     // We've used the prompt, and can't use it again, throw it away
     setDeferredPrompt(null);
-    setIsVisible(false);
+    if (outcome === 'accepted') {
+      setIsVisible(false);
+    }
   };
 
   const handleDismiss = () => {

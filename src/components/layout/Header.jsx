@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import SkyToggle from '../ui/SkyToggle';
+import Logo from '../common/Logo';
 import './Header.css';
 
 export default function Header() {
@@ -29,43 +32,40 @@ export default function Header() {
   return (
     <header className="header" id="app-header">
       <div className="header__inner">
-        <div className="header__left">
-          <div className="header__greeting text-body-sm">{getGreeting()},</div>
-          <div className="header__name text-h3">{firstName}</div>
+        <div className="header__brand">
+          <Link to="/" className="header__logo" aria-label="AlignerFlow home">
+            <Logo size={32} />
+          </Link>
+          <div className="header__left">
+            <div className="header__greeting text-body-sm">{getGreeting()},</div>
+            <div className="header__name text-h3">{firstName}</div>
+          </div>
         </div>
         <div className="header__right" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)' }}>
-          <button
-            className="theme-toggle"
-            onClick={() => {
-              const newTheme = isDark ? 'light' : 'dark';
+          <SkyToggle
+            checked={isDark}
+            onChange={(val) => {
+              const newTheme = val ? 'dark' : 'light';
               document.documentElement.setAttribute('data-theme', newTheme);
               localStorage.setItem('theme', newTheme);
-              setIsDark(!isDark);
+              setIsDark(val);
             }}
-            aria-label="Toggle Dark Mode"
-            style={{
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: '1.2rem',
-              color: 'var(--text-secondary)'
-            }}
-          >
-            {isDark ? '☀️' : '🌙'}
-          </button>
+          />
           
-          {userProfile?.photoURL ? (
-            <img
-              src={userProfile.photoURL}
-              alt={userProfile.displayName}
-              className="header__avatar"
-              referrerPolicy="no-referrer"
-            />
-          ) : (
-            <div className="header__avatar header__avatar--fallback">
-              {firstName.charAt(0).toUpperCase()}
-            </div>
-          )}
+          <Link to="/settings" className="header__avatar-link" aria-label="Open settings">
+            {userProfile?.photoURL ? (
+              <img
+                src={userProfile.photoURL}
+                alt={userProfile.displayName}
+                className="header__avatar"
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <div className="header__avatar header__avatar--fallback">
+                {firstName.charAt(0).toUpperCase()}
+              </div>
+            )}
+          </Link>
         </div>
       </div>
     </header>

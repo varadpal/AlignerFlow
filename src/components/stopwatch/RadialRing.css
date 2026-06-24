@@ -1,3 +1,4 @@
+/* ── Container ─────────────────────────────────────────────────── */
 .radial-ring {
   position: relative;
   display: flex;
@@ -9,21 +10,31 @@
 
 .radial-ring__svg {
   display: block;
-  filter: drop-shadow(0 2px 8px hsla(15, 60%, 50%, 0.08));
+  filter: drop-shadow(0 2px 12px rgba(0, 112, 209, 0.18));
+  transition: filter var(--duration-slow) var(--ease-smooth);
 }
 
+/* Over-budget: drop-shadow turns red */
+.radial-ring--over .radial-ring__svg {
+  filter: drop-shadow(0 4px 16px rgba(200, 27, 58, 0.22));
+}
+
+/* ── Track & progress ──────────────────────────────────────────── */
 .radial-ring__track {
   opacity: 0.6;
 }
 
 .radial-ring__progress {
-  transition: stroke-dashoffset 1s var(--ease-out);
+  transition:
+    stroke-dashoffset 0.8s var(--ease-out),
+    stroke            0.6s var(--ease-smooth);
 }
 
 .radial-ring--active .radial-ring__progress {
   animation: pulseRing 2s ease-in-out infinite;
 }
 
+/* ── Centre content ────────────────────────────────────────────── */
 .radial-ring__content {
   position: absolute;
   top: 50%;
@@ -34,26 +45,84 @@
   flex-direction: column;
   align-items: center;
   gap: 2px;
+  width: 160px;           /* keeps text from bumping into the ring */
 }
 
+/* ── Main time figure ──────────────────────────────────────────── */
 .radial-ring__time {
-  font-size: 2.25rem;
+  font-family: var(--font-display);
+  font-weight: var(--fw-light);
+  font-size: 2.5rem;
   color: var(--text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.5px;
   line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  transition: color var(--duration-normal) var(--ease-smooth);
 }
 
+/* Over-budget: big number turns red */
+.radial-ring__time--over {
+  color: var(--danger);
+}
+
+/* ── Subheading goal label ─────────────────────────────────────── */
 .radial-ring__label {
   color: var(--text-secondary);
   font-weight: var(--fw-medium);
+  font-size: 0.875rem;
+  margin-top: 1px;
 }
 
-.radial-ring__percentage {
-  color: var(--text-muted);
-  margin-top: 2px;
+.radial-ring__label--over {
+  color: var(--danger-text);
 }
 
-/* Pulsing ambient glow when aligners are out */
+/* ── Budget pill ───────────────────────────────────────────────── */
+.radial-ring__budget {
+  margin-top: var(--space-xs);
+  background: var(--bg-elevated);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.radial-ring__budget span {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+}
+
+/* Warning state — amber pill */
+.radial-ring__budget--warning {
+  background: var(--warning-surface);
+}
+.radial-ring__budget--warning span {
+  color: var(--warning-text);
+}
+
+/* Over-budget — red pill with a pulse */
+.radial-ring__budget--over {
+  background: var(--danger-surface);
+  animation: pulseGlow 1.6s ease-in-out infinite;
+}
+.radial-ring__budget--over span {
+  color: var(--danger-text);
+  font-weight: var(--fw-semibold);
+}
+
+/* ── Warning icon in over-budget centre ────────────────────────── */
+.radial-ring__over-icon {
+  display: inline-flex;
+  color: var(--danger);
+  line-height: 1;
+  margin-bottom: 2px;
+  animation: breathe 2s ease-in-out infinite;
+}
+
+/* ── Ambient glow (aligners out) ──────────────────────────────── */
 .radial-ring__pulse {
   position: absolute;
   top: 50%;
@@ -64,11 +133,35 @@
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    hsla(15, 90%, 58%, 0.08) 0%,
-    hsla(15, 90%, 58%, 0.02) 50%,
+    rgba(0, 112, 209, 0.12) 0%,
+    rgba(0, 112, 209, 0.03) 55%,
     transparent 70%
   );
   animation: breathe 3s ease-in-out infinite;
   pointer-events: none;
   z-index: -1;
+}
+
+/* Over-budget pulse turns red */
+.radial-ring__pulse--danger {
+  background: radial-gradient(
+    circle,
+    rgba(200, 27, 58, 0.14) 0%,
+    rgba(200, 27, 58, 0.03) 55%,
+    transparent 70%
+  );
+}
+
+/* Pulsing glow for the over-budget pill */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 0 var(--danger-surface);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.03);
+    box-shadow: 0 0 12px 2px var(--danger-surface);
+  }
 }

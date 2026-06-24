@@ -7,14 +7,15 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['icon.svg', 'apple-touch-icon.png', 'masked-icon.svg'],
+      includeAssets: ['favicon.svg', 'icon.svg'],
       manifest: {
         name: 'AlignerFlow',
         short_name: 'AlignerFlow',
         description: 'Your smile journey, beautifully tracked.',
-        theme_color: '#faf9f6',
-        background_color: '#faf9f6',
+        theme_color: '#0070d1',
+        background_color: '#ffffff',
         display: 'standalone',
+        start_url: '/',
         icons: [
           {
             src: 'icon.svg',

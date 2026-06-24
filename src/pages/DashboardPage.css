@@ -27,6 +27,26 @@
   gap: var(--space-md);
 }
 
+.dashboard__sleep-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.dashboard__sleep-row .dashboard__sleep-btn {
+  flex: 1;
+}
+
+/* Desktop: hovering anywhere on the sleep section reveals the info popup */
+@media (hover: hover) and (pointer: fine) {
+  .dashboard__sleep-row:hover .info-tip__popup {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+
 .dashboard__sleep-btn {
   gap: var(--space-xs);
   background: var(--bg-card);
@@ -34,6 +54,6 @@
 }
 
 .dashboard__sleep-btn:hover {
-  border-color: hsla(260, 50%, 70%, 0.5);
-  background: hsl(260, 30%, 97%);
+  border-color: var(--accent);
+  background: var(--accent-surface);
 }

@@ -35,9 +35,18 @@
 }
 
 .sleep-mode__option-emoji {
-  font-size: 1.75rem;
+  display: inline-flex;
   flex-shrink: 0;
   margin-top: 2px;
+  color: var(--text-secondary);
+}
+
+.sleep-mode__option--recommended .sleep-mode__option-emoji {
+  color: var(--success);
+}
+
+.sleep-mode__option--without .sleep-mode__option-emoji {
+  color: var(--warning);
 }
 
 .sleep-mode__option-content {

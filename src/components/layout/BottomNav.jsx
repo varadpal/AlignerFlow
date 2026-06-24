@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import Logo from '../common/Logo';
 import './BottomNav.css';
 
 const navItems = [
@@ -61,20 +62,30 @@ const navItems = [
 export default function BottomNav() {
   return (
     <nav className="bottom-nav" id="bottom-nav">
-      {navItems.map(item => (
-        <NavLink
-          key={item.path}
-          to={item.path}
-          end={item.path === '/'}
-          className={({ isActive }) =>
-            `bottom-nav__item ${isActive ? 'bottom-nav__item--active' : ''}`
-          }
-          id={`nav-${item.label.toLowerCase()}`}
-        >
-          <span className="bottom-nav__icon">{item.icon}</span>
-          <span className="bottom-nav__label">{item.label}</span>
+      {/* The pill wrapper is a separate element so centering
+          is done by the nav's own flexbox — NOT by CSS transforms.
+          This means it always centres relative to the content column,
+          regardless of viewport width. */}
+      <div className="bottom-nav__pill">
+        {/* Brand lockup — desktop sidebar only */}
+        <NavLink to="/" className="bottom-nav__brand" aria-label="AlignerFlow home">
+          <Logo size={28} wordmark />
         </NavLink>
-      ))}
+        {navItems.map(item => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            end={item.path === '/'}
+            className={({ isActive }) =>
+              `bottom-nav__item ${isActive ? 'bottom-nav__item--active' : ''}`
+            }
+            id={`nav-${item.label.toLowerCase()}`}
+          >
+            <span className="bottom-nav__icon">{item.icon}</span>
+            <span className="bottom-nav__label">{item.label}</span>
+          </NavLink>
+        ))}
+      </div>
     </nav>
   );
 }

@@ -53,6 +53,7 @@
 
 .settings__goal-value {
   font-family: var(--font-display);
+  font-weight: var(--fw-light);
   font-size: 2.5rem;
   color: var(--accent);
   line-height: 1;

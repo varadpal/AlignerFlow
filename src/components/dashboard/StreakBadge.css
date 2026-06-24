@@ -1,27 +1,28 @@
+/* Streak = the app's "premium tier" moment → reserved PS Plus gold gradient */
 .streak-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(135deg, hsl(25, 90%, 96%), hsl(15, 85%, 95%));
-  border: 1px solid hsla(15, 70%, 80%, 0.3);
+  background: var(--gold-gradient);
+  border: none;
   border-radius: var(--radius-full);
   padding: 8px 16px;
-  box-shadow: var(--shadow-xs);
 }
 
 .streak-badge__fire {
-  font-size: 1.125rem;
+  display: inline-flex;
+  color: #181818;
   animation: breathe 2s ease-in-out infinite;
 }
 
 .streak-badge__count {
   font-weight: var(--fw-bold);
   font-size: 1.125rem;
-  color: var(--accent-text);
+  color: #181818;
 }
 
 .streak-badge__label {
   font-size: 0.8125rem;
-  font-weight: var(--fw-medium);
-  color: var(--text-secondary);
+  font-weight: var(--fw-semibold);
+  color: rgba(0, 0, 0, 0.7);
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTimer } from '../../contexts/TimerContext';
 import { formatMinutesToDisplay } from '../../utils/timeFormatters';
+import Icon from '../common/Icon';
 import EditSessionSheet from './EditSessionSheet';
 import './SessionPills.css';
 
@@ -12,7 +13,7 @@ export default function SessionPills() {
     return (
       <div className="session-pills session-pills--empty" id="session-pills">
         <p className="text-body-sm" style={{ color: 'var(--text-muted)', textAlign: 'center' }}>
-          No removal sessions today — keep it up! 🎯
+          No removal sessions today — keep it up.
         </p>
       </div>
     );
@@ -27,9 +28,9 @@ export default function SessionPills() {
         </p>
         <div className="session-pills__list">
           {todaySessions.map((session, i) => {
-            const typeIcon = session.type === 'sleep_without' ? '😴'
-              : session.isManual ? '✏️'
-              : '⏱';
+            const typeIcon = session.type === 'sleep_without' ? 'moon'
+              : session.isManual ? 'edit'
+              : 'clock';
 
             return (
               <div
@@ -40,7 +41,7 @@ export default function SessionPills() {
                 onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
                 onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
               >
-                <span className="session-pill__icon">{typeIcon}</span>
+                <span className="session-pill__icon"><Icon name={typeIcon} size={14} /></span>
                 <span className="session-pill__duration">
                   {formatMinutesToDisplay(session.durationMinutes || 0)}
                 </span>
